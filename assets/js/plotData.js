@@ -9,10 +9,18 @@ class PlotData {
     }
 }
 
-// A group of data that appears in a plot
+// A group of data that appears in a plot, groupData is an array of PlotValues
 class PlotGroup {
     constructor(groupName, groupData) {
         this.groupName = groupName;
         this.groupData = groupData;
+    }
+}
+
+// A single plot point used to reference the plot point in the graph
+class PlotValue {
+    constructor(id, value) {
+        this.id = id;
+        this.value = value;
     }
 }
