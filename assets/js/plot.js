@@ -153,16 +153,17 @@ function iterativeOverlapFix(pointElements, additionalGap = 0) {
     }
     
     // Test if any elements overlap
-    pointElements.forEach(primaryElement => {
-        pointElements.forEach(comparisonElement => {
-            if(primaryElement != comparisonElement) {
-                if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-                    // Run overlapping fix again
-                    iterativeOverlapFix(pointElements, additionalGap);
-                }
+    for(let i= 0; i < pointElements.length; i++) {
+        let primaryElement = pointElements[i];
+        // Iterate over each element after the current element
+        for(let j= i+1; j < pointElements.length; j++) {
+            let comparisonElement = pointElements[j];
+
+            if(testBoundsIntersecting(primaryElement, comparisonElement)) {
+                iterativeOverlapFix(pointElements, additionalGap);
             }
-        });
-    });
+        }
+    }
 }
 
 // Returns an array of plotted points as HTML elements
