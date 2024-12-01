@@ -61,9 +61,6 @@ function updatePlot(plotData) {
         case 'Groups':
             break;
     }
-    
-    // Fix overlapping dots if any exist
-    resolveOverlaps(plotData, 2);
 
     // Update the data labels
     updateLabels(plotData);
