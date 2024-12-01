@@ -166,7 +166,7 @@ function graphPointsByType() {
     let plotData = groupDataByField(allRecords, 'Car Type', 'Car Type');
 
     // Sort by type
-    data.plotGroups.sort((a, b) => {
+    plotData.plotGroups.sort((a, b) => {
         // Extract the numeric part after "R" from the groupName
         const numA = parseInt(a.groupName.slice(1));
         const numB = parseInt(b.groupName.slice(1));
@@ -178,7 +178,7 @@ function graphPointsByType() {
     console.log(plotData)
     
     // Sort by line within groups
-    data.plotGroups.forEach(group => {
+    plotData.plotGroups.forEach(group => {
         group.groupData.sort((itemA, itemB) => {
             const lineA = allRecords.find(record => record.id === itemA.id).fields['Line'] || 0; // Default to 0 if Line is undefined
             const lineB = allRecords.find(record => record.id === itemB.id).fields['Line'] || 0; // Default to 0 if Line is undefined
