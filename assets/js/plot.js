@@ -264,7 +264,7 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
 
-    console.log(`Col: ${columnCount} | Row: ${rowCount}`)
+    console.log(`Col: ${columnCount} | Row: ${rowCount} | Group Width: ${groupWidth} | Calc Col: ${Math.floor(groupWidth/(pointSize + additionalGap))}`);
     
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
