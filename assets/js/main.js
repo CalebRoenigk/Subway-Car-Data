@@ -166,6 +166,9 @@ function graphPointsByNumber() {
         point.style.top = yPos;
         point.style.left = xPos;
     }
+    
+    console.log(allRecords[0]["['fields']['Number']"]);
+    
 
     setMinMaxLabels(minMax);
 }
