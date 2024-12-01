@@ -89,6 +89,8 @@ function linearPlot(plotData) {
             let xPercentage = Math.round(remapValue(plotGroup.groupData[j].value, plotData.minimum, plotData.maximum, 0, 100) * 10) / 10;
             let xPos = xPercentage + '%';
             let yPos = '50%';
+            
+            // TODO: Lets take a deeper dive on this code later because I think it still could be improved, its currently a bit 'messy' and also doesn't seem to account for intersections fully.
             // Fix overlaps here
             // Use the width of the graph area. Find the pixel position of the point based on the xPos above
             // Use the XPosition to determine if it intersects other previous points, adjust the Y position accordingly
@@ -125,67 +127,6 @@ function updateLabels(plotData) {
     axisMax.textContent = plotData.maximum;
 }
 
-// Resolves overlapping points by offsetting the next point in the sequence by the height of the previous point, does this iteratively until all overlapping points have been resolved
-//  - plotData: a PlotData object used to graph the plot
-function resolveOverlaps(plotData, additionalGap = 0) {
-    console.log("Resolving Overlaps");
-    // TODO: This does not seem to work quite right but after playing with it for a bit I think I need to really dive deeper to figure out why it doesn't work and fix it, so for now I am leaving it but please refactor later!
-    // TODO: Another issue with this approach is that using getClientRect returns the client rect at the moment of request, the issue here is that we are using transitions to move the points so the rects arent accurate. Instead we need a way to calculate the resting position of the point and determine its Y position accordingly
-    
-    // Get an array of all plotted points as HTML elements
-    let pointElements = getPointHtmlElements(plotData);
-    
-    // Iterate over each element
-    for(let i= 0; i < pointElements.length; i++) {
-        let primaryElement = pointElements[i];
-        // Iterate over each element after the current element
-        for(let j= i+1; j < pointElements.length; j++) {
-            let comparisonElement = pointElements[j];
-            
-            if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-                // Determine the amount of height to offset the element by
-                let primaryElementHeight = primaryElement.getBoundingClientRect().height;
-
-                // Get the current Y Position
-                let currentComparisonYPosition = comparisonElement.style.top;
-
-                // Calculate the new Y Position
-                let newComparisonYPosition = `calc(${currentComparisonYPosition} - ${primaryElementHeight + additionalGap}px)`;
-
-                // Assign the new Y Position style
-                comparisonElement.style.top = newComparisonYPosition;
-            }
-        }
-    }
-}
-
-// Returns an array of plotted points as HTML elements
-//  - plotData: a PlotData object used to graph the plot
-function getPointHtmlElements(plotData) {
-    let pointElements = [];
-    plotData.plotGroups.forEach(plotGroup => {
-        let groupElement = document.getElementById(plotGroup.groupData[0].id);
-        pointElements.push(groupElement);
-    });
-    
-    return pointElements;
-}
-
-// Tests if two HTML elements intersect one-another and returns a boolean
-//  - element1: the primary comparison element
-//  - element2: the second element to check for intersections with the first element
-function testBoundsIntersecting(element1, element2) {
-    let rect1 = element1.getBoundingClientRect();
-    let rect2 = element2.getBoundingClientRect();
-    
-    return (
-        rect1.left < rect2.right &&
-        rect1.right > rect2.left &&
-        rect1.top < rect2.bottom &&
-        rect1.bottom > rect2.top
-    );
-}
-
 // Returns a bounds object given an input size and center location
 //  - size: the square size of the point
 //  - x: the center of the point on the X Axis
@@ -202,6 +143,8 @@ function getPointBounds(size, x, y) {
 }
 
 // Returns a boolean noting the intersection of two bounds given the bounds
+//  - bounds1: the first point bounds
+//  - bounds2: the second point bounds
 function testBoundsIntersect(bounds1, bounds2) {
     return (
         bounds1.left < bounds2.right &&
