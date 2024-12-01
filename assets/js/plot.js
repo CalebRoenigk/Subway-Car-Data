@@ -110,7 +110,7 @@ function testOverlaps() {
     let record1Bounds = record1Point.getBoundingClientRect();
     console.log(record1Point, `Top-Left: (${record1Bounds.left},${record1Bounds.top}) | Bottom-Right: (${record1Bounds.left + record1Bounds.width},${record1Bounds.top + record1Bounds.height})`);
 
-    let record2Point = document.getElementById(allRecords[0].id);
+    let record2Point = document.getElementById(allRecords[1].id);
     let record2Bounds = record2Point.getBoundingClientRect();
     console.log(record2Point, `Top-Left: (${record2Bounds.left},${record2Bounds.top}) | Bottom-Right: (${record2Bounds.left + record2Bounds.width},${record2Bounds.top + record2Bounds.height})`);
 }
