@@ -113,4 +113,18 @@ function testOverlaps() {
     let record2Point = document.getElementById(allRecords[1].id);
     let record2Bounds = record2Point.getBoundingClientRect();
     console.log(record2Point, `Top-Left: (${record2Bounds.left},${record2Bounds.top}) | Bottom-Right: (${record2Bounds.left + record2Bounds.width},${record2Bounds.top + record2Bounds.height})`);
+    
+    console.log(`Do Points Intersect: ${testBoundsIntersecting(record1Bounds, record2Bounds)}`);
+}
+
+// Tests if two clientBoundingRects intersect one-another
+//  - rect1: clientBoundingRect #1
+//  - rect2: clientBoundingRect #2
+function testBoundsIntersecting(rect1, rect2) {
+    return (
+        rect1.left < rect2.right &&
+        rect1.right > rect2.left &&
+        rect1.top < rect2.bottom &&
+        rect1.bottom > rect2.top
+    );
 }
