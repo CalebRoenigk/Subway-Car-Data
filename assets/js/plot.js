@@ -175,8 +175,7 @@ function graphPointsByType() {
         return numA - numB;
     });
     
-    console.log(plotData)
-    
+    // TODO: FIx this, it doesnt seem to quite work
     // Sort by line within groups
     plotData.plotGroups.forEach(group => {
         group.groupData.sort((itemA, itemB) => {
