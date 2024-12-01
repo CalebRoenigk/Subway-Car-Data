@@ -168,14 +168,14 @@ function graphPointsByType() {
     updatePlot(plotData);
 }
 
-// TODO: Write summary
-function groupPlot(plotData) {
-    // TODO: Code here
+// Creates a grouping plot using plotData
+//  - plotData: a PlotData object used to graph the plot
+//  - pointSize: size of the points
+//  - additionalGap: gap between the points in each group
+//  - maxColumn: the most columns a group can have
+function groupPlot(plotData, pointSize = 8, additionalGap = 2, maxColumn = 5) {
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
-    let pointSize = 8;
-    let additionalGap = 2;
-    let maxColumn = 5;
 
     let groupWidth = (graphWidth - (plotData.plotGroups.length * pointSize)) / (plotData.plotGroups.length-1);
     let columnCount = Math.min(Math.floor(groupWidth/(pointSize + additionalGap)), maxColumn);
@@ -198,7 +198,7 @@ function groupPlot(plotData) {
             let point = document.getElementById(id);
             
             point.style.top = `calc(50% + ${startingYPosition - yPos}px)`;
-            point.style.left = `${startingXPosition + xPos}px`;
+            point.style.left = `calc(${startingXPosition / graphWidth}% + ${xPos}px)`;
         }
     }
 }
