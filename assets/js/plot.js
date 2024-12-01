@@ -62,6 +62,8 @@ function updatePlot(plotData) {
             break;
     }
     
+    // TODO: Fix overlapping dots if any exist
+
     // Update the data labels
     updateLabels(plotData);
 }
@@ -99,4 +101,16 @@ function updateLabels(plotData) {
 
     let axisMax = document.getElementById('axis-maximum');
     axisMax.textContent = plotData.maximum;
+}
+
+// Test function to determine if two points overlap
+function testOverlaps() {
+    // Record 1 and 2 bounds
+    let record1Point = document.getElementById(allRecords[0].id);
+    let record1Bounds = record1Point.getBoundingClientRect();
+    console.log(record1Point, `Top-Left: (${record1Bounds.left},${record1Bounds.top}) | Bottom-Right: (${record1Bounds.left + record1Bounds.width},${record1Bounds.top + record1Bounds.height})`);
+
+    let record2Point = document.getElementById(allRecords[0].id);
+    let record2Bounds = record2Point.getBoundingClientRect();
+    console.log(record2Point, `Top-Left: (${record2Bounds.left},${record2Bounds.top}) | Bottom-Right: (${record2Bounds.left + record2Bounds.width},${record2Bounds.top + record2Bounds.height})`);
 }
