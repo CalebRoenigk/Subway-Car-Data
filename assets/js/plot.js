@@ -181,13 +181,14 @@ function groupPlot(plotData) {
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
     
+    console.log(`Col Count: ${columnCount} Row Count: ${rowCount}`);
+    
     // Find the center for each ground
-    let padSize = columnCount * (pointSize + (additionalGap * (columnCount-1)));
-    let graphAreaPadded = graphArea - padSize;
+    let groupWidth = columnCount * (pointSize + (additionalGap * (columnCount-1)));
     
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
-        let startingXPosition = padSize + (padSize * i);
+        let startingXPosition = groupWidth * i;
         let startingYPosition =  ((rowCount-1) * additionalGap)/2;
         for(let j = 0; j < groupData.length; j++) {
             let id = groupData[j].id;
