@@ -59,6 +59,7 @@ function updatePlot(plotData) {
             linearPlot(plotData);
             break;
         case 'Groups':
+            // TODO: MAKE GROUP GRAPHING WORK!!!!
             break;
     }
 
