@@ -198,7 +198,7 @@ function groupPlot(plotData, pointSize = 8, additionalGap = 2, maxColumn = 5) {
             let point = document.getElementById(id);
             
             point.style.top = `calc(50% + ${startingYPosition - yPos}px)`;
-            point.style.left = `calc(${startingXPosition / graphWidth}% + ${xPos}px)`;
+            point.style.left = `calc(${(startingXPosition / graphWidth)*100}% + ${xPos}px`;
         }
     }
 }
