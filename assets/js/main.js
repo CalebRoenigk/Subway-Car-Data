@@ -5,6 +5,7 @@
 // Make timeline plots prevent overlapping points
 // Add a scale factor for data points to show muitliple hits on the same car
 // Add axis group labels?
+// Add ability to display errors from airtable
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -153,6 +154,8 @@ function getPointColor(line) {
     }
 }
 
+
+// END MAIN - TODO: REFACTOR AND REMOVE ANY FUNCTIONALITY THAT ISNT NEEDED IN MAIN TO OTHER JS FILES
 function graphPointsByNumber() {
     let minMax = getMinMax('Number');
     for(let i=0; i < allRecords.length; i++) {
@@ -166,6 +169,8 @@ function graphPointsByNumber() {
         point.style.top = yPos;
         point.style.left = xPos;
     }
+    
+    console.log(allRecords[0]["['fields']['Number']"]);
 
     setMinMaxLabels(minMax);
 }
