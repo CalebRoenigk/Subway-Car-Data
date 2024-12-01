@@ -58,9 +58,6 @@ function updatePlot(plotData) {
             // Plot the data linearly
             linearPlot(plotData);
             break;
-        case 'Groups':
-            // TODO: MAKE GROUP GRAPHING WORK!!!!
-            break;
         case 'Car Type':
             // Plot the data into sorted groups
             groupPlot(plotData);
@@ -257,6 +254,7 @@ function timeToInterval(time) {
 //  - pointSize: size of the points
 //  - additionalGap: gap between the points in each group
 function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap = 2) {
+    console.log("Starting fixed Plot")
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
 
@@ -266,6 +264,8 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
 
+    console.log(`Col: ${columnCount} | Row: ${rowCount}`)
+    
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
         let startingXPosition = groupWidth * i;
