@@ -3,9 +3,10 @@
 // Reorganize how data for plotting is done
 // Rework the plot function to support new data structure
 // Make timeline plots prevent overlapping points
-// Add a scale factor for data points to show muitliple hits on the same car
+// Add a scale factor for data points to show multiple hits on the same car
 // Add axis group labels?
 // Add ability to display errors from airtable
+// Add ability to save data to local storage and only retrieve from airtable once a day (prevents flooding airtable with a ton of requests)
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
