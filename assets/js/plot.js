@@ -175,17 +175,15 @@ function groupPlot(plotData) {
     let graphWidth = graphArea.offsetWidth;
     let pointSize = 8;
     let additionalGap = 2;
-    
-    let columnCount = Math.floor(((graphWidth - ((plotData.plotGroups.length - 1) * pointSize)) / plotData.plotGroups.length)/(pointSize + additionalGap));
-    console.log(`Column Count: ${columnCount} | graphWidth: ${graphWidth} | Group Gap Total: ${((plotData.plotGroups.length - 1) * pointSize)} | Single Group Size: ${(graphWidth - ((plotData.plotGroups.length - 1) * pointSize)) / plotData.plotGroups.length}`)
+
+    let groupWidth = (graphWidth - ((plotData.plotGroups.length - 1) * pointSize)) / plotData.plotGroups.length;
+    let columnCount = Math.floor(groupWidth/(pointSize + additionalGap));
+    console.log(`Column Count: ${columnCount} | graphWidth: ${graphWidth} | Group Gap Total: ${((plotData.plotGroups.length - 1) * pointSize)} | Single Group Size: ${groupWidth}`)
     
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
     
     console.log(`Col Count: ${columnCount} Row Count: ${rowCount}`);
-    
-    // Find the center for each ground
-    let groupWidth = columnCount * (pointSize + (additionalGap * (columnCount-1)));
     
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
