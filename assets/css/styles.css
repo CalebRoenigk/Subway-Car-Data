@@ -5,6 +5,9 @@ body {
     font-style: normal;
     font-weight: 400;
     --point-size: 8px;
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    -webkit-user-select: none; /* Safari */
+    user-select: none; /* Standard syntax */
 }
 
 h1 {
