@@ -1,4 +1,12 @@
-﻿const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
+﻿// TODO:
+// Add Loading state before async call finishes
+// Reorganize how data for plotting is done
+// Rework the plot function to support new data structure
+// Make timeline plots prevent overlapping points
+// Add a scale factor for data points to show muitliple hits on the same car
+// Add axis group labels?
+
+const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
 
 Airtable.configure({
