@@ -35,7 +35,6 @@ async function fetchAllRecords() {
         /* console.log(allRecords[0]); */
         generateDataPoints();
         graphPointsByNumber();
-        testOverlaps();
     } catch (error) {
         console.error('Error fetching records:', error);
     }
