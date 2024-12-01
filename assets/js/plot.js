@@ -105,7 +105,7 @@ function linearPlot(plotData) {
                 let previousPointBounds = getPointBounds(pointSize, (previousPoint.style.left.replace(/%/g, '')/100) * graphWidth, previousYPercent * graphHeight);
                 
                 if(testBoundsIntersect(pointBounds, previousPointBounds)) {
-                    yPos = (previousYPercent - ((pointSize + additionalGap) / graphHeight)) + '%';
+                    yPos = ((previousYPercent - ((pointSize + additionalGap) / graphHeight))*100) + '%';
                 }
             }
             
