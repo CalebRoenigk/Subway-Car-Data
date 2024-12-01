@@ -44,9 +44,7 @@ function graphPointsByNumber() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Number', 'Timeline');
     
-    // TODO: Figure out how to plot min/max and labels
-    
-    
+    // Update the data points with new positions and styles
     updatePlot(plotData);
 }
 
@@ -63,6 +61,9 @@ function updatePlot(plotData) {
         case 'Groups':
             break;
     }
+    
+    // Update the data labels
+    updateLabels(plotData);
 }
 
 // Graphs the data points in a linear fashion
@@ -78,12 +79,24 @@ function linearPlot(plotData) {
 
             // Y pos will be the count within the group
             // X pos will be the groups position in the linear plot
-            let xPos = (Math.round(remapValue(plotGroup.groupData[j].value, 0, 9999, 0, 100) * 10) / 10) + '%';
+            let xPos = (Math.round(remapValue(plotGroup.groupData[j].value, plotData.minimum, plotData.maximum, 0, 100) * 10) / 10) + '%';
             let yPos = '50%';
 
+            // Set the styles of the point
             let point = document.getElementById(id);
             point.style.top = yPos;
             point.style.left = xPos;
         }
     }
+}
+
+// Updates the data labels for the plot
+//  - plotData: a PlotData object used to graph the plot
+function updateLabels(plotData) {
+    // TODO: Refactor this to support a variable number of labels
+    let axisMin = document.getElementById('axis-minimum');
+    axisMin.textContent = plotData.minimum;
+
+    let axisMax = document.getElementById('axis-maximum');
+    axisMax.textContent = plotData.maximum;
 }
