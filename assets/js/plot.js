@@ -107,6 +107,7 @@ function updateLabels(plotData) {
 // Resolves overlapping points by offsetting the next point in the sequence by the height of the previous point, does this iteratively until all overlapping points have been resolved
 //  - plotData: a PlotData object used to graph the plot
 function resolveOverlaps(plotData, additionalGap = 0) {
+    console.log("Resolving Overlaps");
     // TODO: This does not seem to work quite right but after playing with it for a bit I think I need to really dive deeper to figure out why it doesn't work and fix it, so for now I am leaving it but please refactor later!
     
     // Get an array of all plotted points as HTML elements
