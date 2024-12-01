@@ -1,228 +1,224 @@
-/* END CSS RESET */
-
 body {
-  font-family: "Host Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  --point-size: 8px;
-}
-
-.data-point {
-  width: var(--point-size);
-  border-radius: 50%;
-  aspect-ratio: 1 / 1;
-  background-color: var(--line-color);
-  transform: translateX(-50%);
-  transition: 1s cubic-bezier(0.5,0,0.5,1);
-}
-
-.container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.filler {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-}
-
-#graph-wrapper {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-  padding: 4em;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 3em 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
-
-#graph-area {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-#graph-controls {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 16px;
-  justify-content: flex-start;
-}
-
-#graph-controls > button {
-  outline: none;
-  border: none;
-  padding: 0px;
-  margin: 0px;
-  font-family: "Host Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-size: 2em;
-  font-style: normal;
+    background-color: #eeeeee;
+    font-family: "Host Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+    --point-size: 8px;
 }
 
 h1 {
-  font-family: "Host Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-size: 2em;
-  font-style: normal;
-}
-
-body {
-  background-color: #eeeeee;
-}
-
-#graph-controls > input[type="radio"] {
-  display: none;
-}
-
-label {
-  color: gray;
-  transition: 0.25s ease;
-}
-input[type="radio"]:checked + label {
-  color: black;
-}
-
-.tool-tip-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: 0.125s ease;
-}
-
-.tool-tip-point-outline {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100% + 0px);
-  aspect-ratio: 1 / 1;
-  background-color: var(--line-color);
-  border-radius: 50%;
-  transition: 0.25s cubic-bezier(.375,0,.375,1);
-}
-
-.tool-tip {
-  position: absolute;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0px 4px 4px rgba(0,0,0,.05);
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 4px;
-  transform: translateX(8px);
-  z-index: 10;
-  pointer-events: none;
-  transition: 0.25s ease;
-}
-
-.card-group {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 8px;
+    font-family: "Host Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 600;
 }
 
 h3 {
-  font-size: 16px;
-  font-weight: 800;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 h4 {
-  font-size: 12px;
-}
-
-.data-point:hover > .tool-tip-wrapper {
-  opacity: 1;
-}
-
-.data-point:hover > .tool-tip-wrapper > .tool-tip-point-outline {
-  width: calc(100% + 4px);
+    font-size: 12px;
 }
 
 .blue-line {
-  --line-color: #0039a6;
+    --line-color: #0039a6;
 }
 
 .orange-line {
-  --line-color: #ff6319;
+    --line-color: #ff6319;
 }
 
 .lime-line {
-  --line-color: #6cbe45;
+    --line-color: #6cbe45;
 }
 
 .light-gray-line {
-  --line-color: #a7a9ac;
+    --line-color: #a7a9ac;
 }
 
 .brown-line {
-  --line-color: #996633;
+    --line-color: #996633;
 }
 
 .yellow-line {
-  --line-color: #fccc0a;
+    --line-color: #fccc0a;
 }
 
 .red-line {
-  --line-color: #ee352e;
+    --line-color: #ee352e;
 }
 
 .green-line {
-  --line-color: #00933c;
+    --line-color: #00933c;
 }
 
 .purple-line {
-  --line-color: #b933ad;
+    --line-color: #b933ad;
 }
 
 .turquoise-line {
-  --line-color: #00add0;
+    --line-color: #00add0;
 }
 
 .gray-line {
-  --line-color: #808183;
+    --line-color: #808183;
 }
 
 #graph-axis-wrapper {
-  color: gray;
+    color: gray;
+}
+
+.data-point {
+    aspect-ratio: 1 / 1;
+    background-color: var(--line-color);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    transition: 1s cubic-bezier(0.5, 0, 0.5, 1);
+    width: var(--point-size);
+}
+
+.container {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.filler {
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+}
+
+#graph-wrapper {
+    box-sizing: border-box;
+    display: grid;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3em 1fr;
+    height: 100vh;
+    overflow: hidden;
+    padding: 4em;
+    position: relative;
+    width: 100vw;
+}
+
+#graph-area {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+#graph-controls {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+#graph-controls > button {
+    border: none;
+    font-family: "Host Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 600;
+    margin: 0px;
+    outline: none;
+    padding: 0px;
+}
+
+#graph-controls > input[type="radio"] {
+    display: none;
+}
+
+label {
+    color: gray;
+    transition: 0.25s ease;
+}
+
+input[type="radio"]:checked + label {
+    color: black;
+}
+
+.tool-tip-wrapper {
+    height: 100%;
+    opacity: 0;
+    position: relative;
+    transition: 0.125s ease;
+    width: 100%;
+}
+
+.tool-tip-point-outline {
+    aspect-ratio: 1 / 1;
+    background-color: var(--line-color);
+    border-radius: 50%;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.25s cubic-bezier(.375, 0, .375, 1);
+    width: calc(100% + 0px);
+}
+
+.tool-tip {
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 8px;
+    pointer-events: none;
+    position: absolute;
+    transform: translateX(8px);
+    transition: 0.25s ease;
+    z-index: 10;
+}
+
+.card-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+.data-point:hover > .tool-tip-wrapper {
+    opacity: 1;
+}
+
+.data-point:hover > .tool-tip-wrapper > .tool-tip-point-outline {
+    width: calc(100% + 4px);
 }
 
 #graph-axis-wrapper > h3 {
-  position: absolute;
-  top: calc(50% + 2em);
-  transform: translate(0%, -50%);
+    position: absolute;
+    top: calc(50% + 2em);
+    transform: translate(0%, -50%);
 }
 
 #axis-minimum {
-  left: 0px;
-  text-align: left;
+    left: 0px;
+    text-align: left;
 }
 
 #axis-maximum {
-  right: 0px;
-  text-align: right;
+    right: 0px;
+    text-align: right;
 }
 
 #graph-points {
-  padding-left: calc(var(--point-size)/2);
-  padding-right: calc(var(--point-size)/2);
-  box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: calc(var(--point-size) / 2);
+    padding-right: calc(var(--point-size) / 2);
 }
