@@ -220,6 +220,9 @@ function getMaxGroupLength(plotData) {
 function graphPointsByTime() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Ridden Date', 'Time', timeToInterval);
+
+    // Sort by time
+    plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
     
     console.log(plotData);
 
