@@ -391,3 +391,7 @@ function groupByTimeIntervals(intervalMinutes = 15) {
 
     return grouped;
 }
+
+function graphPointsByLine() {
+    // TODO: CODE HERE
+}
