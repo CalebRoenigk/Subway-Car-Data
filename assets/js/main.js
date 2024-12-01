@@ -198,25 +198,25 @@ function remapValue(value, low1, high1, low2, high2) {
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 }
 
-function graphPointsByType() {
-    let groupedData = groupByProperty('Car Type');
-
-    for(let i=0; i < groupedData.length; i++) {
-        for(let j=0; j < groupedData[i].length; j++) {
-            let id = groupedData[i][j].id;
-            let type = groupedData[i][j].fields['Car Type'];
-
-            let xPos = (Math.round(remapValue(i, 0, groupedData.length-1, 0, 100)*10)/10) + '%';
-            let yPos = 'calc(50% - calc(10px * ' + j + '))';
-
-            let point = document.getElementById(id);
-            point.style.top = yPos;
-            point.style.left = xPos;
-        }
-    }
-
-    setMinMaxLabels(minMax);
-}
+// function graphPointsByType() {
+//     let groupedData = groupByProperty('Car Type');
+//
+//     for(let i=0; i < groupedData.length; i++) {
+//         for(let j=0; j < groupedData[i].length; j++) {
+//             let id = groupedData[i][j].id;
+//             let type = groupedData[i][j].fields['Car Type'];
+//
+//             let xPos = (Math.round(remapValue(i, 0, groupedData.length-1, 0, 100)*10)/10) + '%';
+//             let yPos = 'calc(50% - calc(10px * ' + j + '))';
+//
+//             let point = document.getElementById(id);
+//             point.style.top = yPos;
+//             point.style.left = xPos;
+//         }
+//     }
+//
+//     setMinMaxLabels(minMax);
+// }
 
 function groupByProperty(property) {
     const grouped = {};

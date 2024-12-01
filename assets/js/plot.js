@@ -42,7 +42,7 @@ function groupDataByField(data, field, plotType, preprocessFunction = null) {
 // Sorts the graph by Car Number
 function graphPointsByNumber() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Number', 'Timeline');
+    let plotData = groupDataByField(allRecords, 'Number', 'Number');
     
     // Update the data points with new positions and styles
     updatePlot(plotData);
@@ -54,12 +54,16 @@ function updatePlot(plotData) {
     // First determine the plot method via plotType
     switch(plotData.plotType) {
         default:
-        case 'Timeline':
+        case 'Number':
             // Plot the data linearly
             linearPlot(plotData);
             break;
         case 'Groups':
             // TODO: MAKE GROUP GRAPHING WORK!!!!
+            break;
+        case 'Car Type':
+            // Plot the data into sorted groups
+            groupPlot(plotData);
             break;
     }
 
@@ -153,4 +157,59 @@ function testBoundsIntersect(bounds1, bounds2) {
         bounds1.top < bounds2.bottom &&
         bounds1.bottom > bounds2.top
     );
+}
+
+// Sorts the graph by Car Type
+function graphPointsByType() {
+    // Create the plot data
+    let plotData = groupDataByField(allRecords, 'Car Type', 'Car Type');
+
+    // Update the data points with new positions and styles
+    updatePlot(plotData);
+}
+
+// TODO: Write summary
+function groupPlot(plotData) {
+    // TODO: Code here
+    let graphArea = document.getElementById('graph-points-wrapper');
+    let graphWidth = graphArea.offsetWidth;
+    let pointSize = 8;
+    let additionalGap = 2;
+    
+    let columnCount = Math.floor(((graphWidth - ((plotData.plotGroups.length - 1) * pointSize))/plotData.plotGroups.length)/pointSize);
+    
+    let maxGroupLength = getMaxGroupLength(plotData);
+    let rowCount = Math.ceil(maxGroupLength / columnCount);
+    
+    // Find the center for each ground
+    let padSize = columnCount * (pointSize + (additionalGap * (columnCount-1)));
+    let graphAreaPadded = graphArea - padSize;
+    
+    for(let i=0; i < plotData.plotGroups.length; i++) {
+        let groupData = plotData.plotGroups[i].groupData;
+        let startingXPosition = padSize + (padSize * i);
+        let startingYPosition =  ((rowCount-1) * additionalGap)/2;
+        for(let j = 0; j < groupData.length; j++) {
+            let id = groupData[j].id;
+            let xIndex = j % columnCount;
+            let yIndex = Math.floor(j/columnCount);
+            
+            let xPos = xIndex * (pointSize + additionalGap);
+            let yPos = yIndex * (pointSize + additionalGap);
+            
+            let point = document.getElementById(id);
+            
+            point.style.top = `calc(50% + ${startingYPosition - yPos}px)`;
+            point.style.left = `${startingXPosition + xPos}px`;
+        }
+    }
+}
+
+// Returns the largest group from a given plot data
+//  - plotData: a PlotData object used to graph the plot
+function getMaxGroupLength(plotData) {
+    let maxGroupLength = plotData.plotGroups[0].groupData.length;
+    plotData.plotGroups.forEach(group => {maxGroupLength = Math.max(group.groupData.length, maxGroupLength)});
+    
+    return maxGroupLength;
 }
