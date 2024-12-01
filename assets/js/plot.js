@@ -143,7 +143,7 @@ function iterativeOverlapFix(pointElements, additionalGap = 0, iterationsCount =
         return;
     }
     
-    for(let i=0; i < pointElements.length-1;) {
+    for(let i=0; i < pointElements.length-2;) {
         let primaryElement = pointElements[i];
         let comparisonElement = pointElements[i+1];
         
