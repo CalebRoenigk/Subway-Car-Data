@@ -268,7 +268,7 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
-        let startingXPosition = groupWidth * i;
+        let startingXPosition = groupWidth * plotData.plotGroups[i].groupName;
         let startingYPosition =  ((rowCount-1) * additionalGap)/2;
         for(let j = 0; j < groupData.length; j++) {
             let id = groupData[j].id;
