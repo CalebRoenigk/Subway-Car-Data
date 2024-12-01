@@ -8,7 +8,7 @@ class PlotData {
         this.plotGroups = plotGroups;
         
         // Determine the minimum and maximum values of the plot groups
-        getMinMax();
+        this.getMinMax();
     }
     
     // Get a minimum and maximum for the plot groups and store the min/max values to the object
