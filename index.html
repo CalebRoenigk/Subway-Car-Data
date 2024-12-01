@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Subway Car Ride Data</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./assets/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/airtable@0.12.2/lib/airtable.umd.min.js"></script>
+    </head>
+    <body>
+        <div id="graph-wrapper">
+            <div id="graph-controls">
+                <h1>Sort by</h1>
+                <input type="radio" id="number-sort" name="sort" value="number" checked/>
+                <label for="number-sort" onClick="graphPointsByNumber()">
+                    <h1>Number</h1>
+                </label>
+                <input type="radio" id="type-sort" name="sort" value="type"/>
+                <label for="type-sort" onClick="graphPointsByType()">
+                    <h1>Type</h1>
+                </label>
+                <input type="radio" id="date-sort" name="sort" value="date"/>
+                <label for="date-sort" onClick="graphPointsByDate()">
+                    <h1>Date</h1>
+                </label>
+                <input type="radio" id="time-sort" name="sort" value="time"/>
+                <label for="time-sort" onClick="graphPointsByTime()">
+                    <h1>Time</h1>
+                </label>
+            </div>
+            <div id="graph-area">
+                <div id="graph-data-wrapper" class="container">
+                    <div id="graph-axis" class="filler">
+                        <div id="graph-axis-wrapper" class="container">
+                            <h3 id="axis-minimum">
+                            </h3>
+                            <h3 id="axis-maximum">
+                            </h3>
+                        </div>
+                    </div>
+                    <div id="graph-points" class="filler">
+                        <div id="graph-points-wrapper" class="container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./assets/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,278 @@
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* END CSS RESET */
+
+body {
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  --point-size: 8px;
+}
+
+.data-point {
+  width: var(--point-size);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--line-color);
+  transform: translateX(-50%);
+  transition: 1s cubic-bezier(0.5,0,0.5,1);
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.filler {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+#graph-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 4em;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3em 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+#graph-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#graph-controls {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+#graph-controls > button {
+  outline: none;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 2em;
+  font-style: normal;
+}
+
+h1 {
+  font-family: "Host Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 2em;
+  font-style: normal;
+}
+
+body {
+  background-color: #eeeeee;
+}
+
+#graph-controls > input[type="radio"] {
+  display: none;
+}
+
+label {
+  color: gray;
+  transition: 0.25s ease;
+}
+input[type="radio"]:checked + label {
+  color: black;
+}
+
+.tool-tip-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.125s ease;
+}
+
+.tool-tip-point-outline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 0px);
+  aspect-ratio: 1 / 1;
+  background-color: var(--line-color);
+  border-radius: 50%;
+  transition: 0.25s cubic-bezier(.375,0,.375,1);
+}
+
+.tool-tip {
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px rgba(0,0,0,.05);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 4px;
+  transform: translateX(8px);
+  z-index: 10;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.card-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+h4 {
+  font-size: 12px;
+}
+
+.data-point:hover > .tool-tip-wrapper {
+  opacity: 1;
+}
+
+.data-point:hover > .tool-tip-wrapper > .tool-tip-point-outline {
+  width: calc(100% + 4px);
+}
+
+.blue-line {
+  --line-color: #0039a6;
+}
+
+.orange-line {
+  --line-color: #ff6319;
+}
+
+.lime-line {
+  --line-color: #6cbe45;
+}
+
+.light-gray-line {
+  --line-color: #a7a9ac;
+}
+
+.brown-line {
+  --line-color: #996633;
+}
+
+.yellow-line {
+  --line-color: #fccc0a;
+}
+
+.red-line {
+  --line-color: #ee352e;
+}
+
+.green-line {
+  --line-color: #00933c;
+}
+
+.purple-line {
+  --line-color: #b933ad;
+}
+
+.turquoise-line {
+  --line-color: #00add0;
+}
+
+.gray-line {
+  --line-color: #808183;
+}
+
+#graph-axis-wrapper {
+  color: gray;
+}
+
+#graph-axis-wrapper > h3 {
+  position: absolute;
+  top: calc(50% + 2em);
+  transform: translate(0%, -50%);
+}
+
+#axis-minimum {
+  left: 0px;
+  text-align: left;
+}
+
+#axis-maximum {
+  right: 0px;
+  text-align: right;
+}
+
+#graph-points {
+  padding-left: calc(var(--point-size)/2);
+  padding-right: calc(var(--point-size)/2);
+  box-sizing: border-box;
+}
