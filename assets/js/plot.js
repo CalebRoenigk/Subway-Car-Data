@@ -138,7 +138,11 @@ function resolveOverlaps(plotData, additionalGap = 0) {
     iterativeOverlapFix(pointElements, additionalGap = 0);
 }
 
-function iterativeOverlapFix(pointElements, additionalGap = 0) {
+function iterativeOverlapFix(pointElements, additionalGap = 0, iterationsCount = 0) {
+    if(iterationsCount > 100) {
+        return;
+    }
+    
     for(let i=0; i < pointElements.length-1;) {
         let primaryElement = pointElements[i];
         let comparisonElement = pointElements[i+1];
@@ -167,7 +171,7 @@ function iterativeOverlapFix(pointElements, additionalGap = 0) {
     }
     
     if(overlapsExist) {
-        iterativeOverlapFix(pointElements, additionalGap);
+        iterativeOverlapFix(pointElements, additionalGap, iterationsCount+1);
     }
 }
 
