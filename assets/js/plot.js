@@ -176,9 +176,9 @@ function groupPlot(plotData) {
     let pointSize = 8;
     let additionalGap = 2;
 
-    let groupWidth = (graphWidth - ((plotData.plotGroups.length - 1) * pointSize)) / plotData.plotGroups.length;
+    let groupWidth = (graphWidth - (plotData.plotGroups.length * pointSize)) / plotData.plotGroups.length;
     let columnCount = Math.floor(groupWidth/(pointSize + additionalGap));
-    console.log(`Column Count: ${columnCount} | graphWidth: ${graphWidth} | Group Gap Total: ${((plotData.plotGroups.length - 1) * pointSize)} | Single Group Size: ${groupWidth}`)
+    console.log(`Column Count: ${columnCount} | graphWidth: ${graphWidth} | Group Gap Total: ${(plotData.plotGroups.length * pointSize)} | Single Group Size: ${groupWidth}`)
     
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
