@@ -220,6 +220,8 @@ function getMaxGroupLength(plotData) {
 function graphPointsByTime() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Ridden Date', 'Time', timeToInterval);
+    
+    console.log(plotData);
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
