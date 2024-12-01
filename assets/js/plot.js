@@ -164,6 +164,10 @@ function testBoundsIntersect(bounds1, bounds2) {
 function graphPointsByType() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Car Type', 'Car Type');
+    
+    console.log(plotData)
+    
+    // Sort by line within groups
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
@@ -220,8 +224,6 @@ function graphPointsByTime() {
 
     // Sort by time
     plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
-    
-    console.log(plotData);
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
@@ -285,3 +287,5 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
         }
     }
 }
+
+// TODO: Make a Single Group Plot for the line visualization
