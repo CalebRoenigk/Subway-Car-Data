@@ -18,7 +18,7 @@ function groupDataByField(data, field, plotType, preprocessFunction = null) {
         let plotValue = new PlotValue(record.id, fieldValue);
         
         // Check if there is any plot group that matches the current fieldValue
-        let plotGroupIndex = plotGroup.findIndex(group => group.groupName === fieldValue);
+        let plotGroupIndex = plotGroups.findIndex(group => group.groupName === fieldValue);
         if(plotGroupIndex != -1) {
             // There is already an existing plotGroup with the same fieldValue
             // Add this record to the plotGroup
