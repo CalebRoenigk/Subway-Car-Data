@@ -258,8 +258,8 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
 
-    let groupWidth = (graphWidth - (fixedGroupSize * pointSize)) / (fixedGroupSize-1);
-    let columnCount = Math.floor(groupWidth/(pointSize + additionalGap));
+    let groupWidth = graphWidth / (fixedGroupSize-1);
+    let columnCount = Math.max(Math.floor(groupWidth/(pointSize + additionalGap)), 1);
 
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
