@@ -106,34 +106,63 @@ function updateLabels(plotData) {
 
 // Resolves overlapping points by offsetting the next point in the sequence by the height of the previous point, does this iteratively until all overlapping points have been resolved
 //  - plotData: a PlotData object used to graph the plot
-function resolveOverlaps(plotData) {
+function resolveOverlaps(plotData, additionalGap = 0) {
     // Get an array of all plotted points as HTML elements
     let pointElements = getPointHtmlElements(plotData);
     
     // Iterate over each element
-    for(let i= 0; i < pointElements.length; i++) {
+    // for(let i= 0; i < pointElements.length; i++) {
+    //     let primaryElement = pointElements[i];
+    //     // Iterate over each element after the current element
+    //     for(let j= i+1; j < pointElements.length; j++) {
+    //         let comparisonElement = pointElements[j];
+    //        
+    //         if(testBoundsIntersecting(primaryElement, comparisonElement)) {
+    //             // Determine the amount of height to offset the element by
+    //             let primaryElementHeight = primaryElement.getBoundingClientRect().height;
+    //            
+    //             // Get the current Y Position
+    //             let currentComparisonYPosition = comparisonElement.style.top;
+    //            
+    //             // Calculate the new Y Position
+    //             let newComparisonYPosition = `calc(${currentComparisonYPosition} - ${primaryElementHeight + additionalGap}px)`;
+    //            
+    //             // Assign the new Y Position style
+    //             comparisonElement.style.top = newComparisonYPosition;
+    //            
+    //             // TODO: If this doesn't work, instead keep an attr to keep track of the offset height and use that to calc a new height offset each time, vs using this nested approach
+    //         }
+    //     }
+    // }
+
+    iterativeOverlapFix(pointElements, additionalGap = 0);
+}
+
+function iterativeOverlapFix(pointElements, additionalGap = 0) {
+    for(let i=0; i < pointElements.length-1;) {
         let primaryElement = pointElements[i];
-        // Iterate over each element after the current element
-        for(let j= i+1; j < pointElements.length; j++) {
-            let comparisonElement = pointElements[j];
-            
-            if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-                // Determine the amount of height to offset the element by
-                let primaryElementHeight = primaryElement.getBoundingClientRect().height;
-                
-                // Get the current Y Position
-                let currentComparisonYPosition = comparisonElement.style.top;
-                
-                // Calculate the new Y Position
-                let newComparisonYPosition = `calc(${currentComparisonYPosition} - ${primaryElementHeight}px)`;
-                
-                // Assign the new Y Position style
-                comparisonElement.style.top = newComparisonYPosition;
-                
-                // TODO: If this doesn't work, instead keep an attr to keep track of the offset height and use that to calc a new height offset each time, vs using this nested approach
-            }
+        let comparisonElement = pointElements[i+1];
+        
+        // Test if the two elements overlap
+        if(testBoundsIntersecting(primaryElement, comparisonElement)) {
+            // Set the new position of the comparision element
+            comparisonElement.style.top = `calc(${primaryElement.style.top} - ${primaryElement.getBoundingClientRect().height + additionalGap})`;
         }
+        
+        i += 2;
     }
+    
+    // Test if any elements overlap
+    pointElements.forEach(primaryElement => {
+        pointElements.forEach(comparisonElement => {
+            if(primaryElement != comparisonElement) {
+                if(testBoundsIntersecting(primaryElement, comparisonElement)) {
+                    // Run overlapping fix again
+                    iterativeOverlapFix(pointElements, additionalGap);
+                }
+            }
+        });
+    });
 }
 
 // Returns an array of plotted points as HTML elements
