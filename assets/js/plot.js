@@ -63,7 +63,7 @@ function updatePlot(plotData) {
     }
     
     // TODO: Fix overlapping dots if any exist
-    resolveOverlaps(plotData);
+    resolveOverlaps(plotData, 2);
 
     // Update the data labels
     updateLabels(plotData);
@@ -107,57 +107,12 @@ function updateLabels(plotData) {
 // Resolves overlapping points by offsetting the next point in the sequence by the height of the previous point, does this iteratively until all overlapping points have been resolved
 //  - plotData: a PlotData object used to graph the plot
 function resolveOverlaps(plotData, additionalGap = 0) {
+    // TODO: This does not seem to work quite right but after playing with it for a bit I think I need to really dive deeper to figure out why it doesn't work and fix it, so for now I am leaving it but please refactor later!
+    
     // Get an array of all plotted points as HTML elements
     let pointElements = getPointHtmlElements(plotData);
     
     // Iterate over each element
-    // for(let i= 0; i < pointElements.length; i++) {
-    //     let primaryElement = pointElements[i];
-    //     // Iterate over each element after the current element
-    //     for(let j= i+1; j < pointElements.length; j++) {
-    //         let comparisonElement = pointElements[j];
-    //        
-    //         if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-    //             // Determine the amount of height to offset the element by
-    //             let primaryElementHeight = primaryElement.getBoundingClientRect().height;
-    //            
-    //             // Get the current Y Position
-    //             let currentComparisonYPosition = comparisonElement.style.top;
-    //            
-    //             // Calculate the new Y Position
-    //             let newComparisonYPosition = `calc(${currentComparisonYPosition} - ${primaryElementHeight + additionalGap}px)`;
-    //            
-    //             // Assign the new Y Position style
-    //             comparisonElement.style.top = newComparisonYPosition;
-    //            
-    //             // TODO: If this doesn't work, instead keep an attr to keep track of the offset height and use that to calc a new height offset each time, vs using this nested approach
-    //         }
-    //     }
-    // }
-
-    iterativeOverlapFix(pointElements, additionalGap = 0);
-}
-
-function iterativeOverlapFix(pointElements, additionalGap = 0, iterationsCount = 0) {
-    if(iterationsCount > 100) {
-        return;
-    }
-    
-    for(let i=0; i < pointElements.length-2;) {
-        let primaryElement = pointElements[i];
-        let comparisonElement = pointElements[i+1];
-        
-        // Test if the two elements overlap
-        if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-            // Set the new position of the comparision element
-            comparisonElement.style.top = `calc(${primaryElement.style.top} - ${primaryElement.getBoundingClientRect().height + additionalGap})`;
-        }
-        
-        i += 2;
-    }
-    
-    // Test if any elements overlap
-    let overlapsExist = false;
     for(let i= 0; i < pointElements.length; i++) {
         let primaryElement = pointElements[i];
         // Iterate over each element after the current element
@@ -165,13 +120,19 @@ function iterativeOverlapFix(pointElements, additionalGap = 0, iterationsCount =
             let comparisonElement = pointElements[j];
 
             if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-                overlapsExist = true;
+                // Determine the amount of height to offset the element by
+                let primaryElementHeight = primaryElement.getBoundingClientRect().height;
+
+                // Get the current Y Position
+                let currentComparisonYPosition = comparisonElement.style.top;
+
+                // Calculate the new Y Position
+                let newComparisonYPosition = `calc(${currentComparisonYPosition} - ${primaryElementHeight + additionalGap}px)`;
+
+                // Assign the new Y Position style
+                comparisonElement.style.top = newComparisonYPosition;
             }
         }
-    }
-    
-    if(overlapsExist) {
-        iterativeOverlapFix(pointElements, additionalGap, iterationsCount+1);
     }
 }
 
@@ -187,21 +148,7 @@ function getPointHtmlElements(plotData) {
     return pointElements;
 }
 
-// Test function to determine if two points overlap
-function testOverlaps() {
-    // Record 1 and 2 bounds
-    let record1Point = document.getElementById(allRecords[0].id);
-    let record1Bounds = record1Point.getBoundingClientRect();
-    console.log(record1Point, `Top-Left: (${record1Bounds.left},${record1Bounds.top}) | Bottom-Right: (${record1Bounds.left + record1Bounds.width},${record1Bounds.top + record1Bounds.height})`);
-
-    let record2Point = document.getElementById(allRecords[1].id);
-    let record2Bounds = record2Point.getBoundingClientRect();
-    console.log(record2Point, `Top-Left: (${record2Bounds.left},${record2Bounds.top}) | Bottom-Right: (${record2Bounds.left + record2Bounds.width},${record2Bounds.top + record2Bounds.height})`);
-    
-    console.log(`Do Points Intersect: ${testBoundsIntersecting(record1Bounds, record2Bounds)}`);
-}
-
-// Tests if two HTML elements intersect one-another
+// Tests if two HTML elements intersect one-another and returns a boolean
 //  - element1: the primary comparison element
 //  - element2: the second element to check for intersections with the first element
 function testBoundsIntersecting(element1, element2) {
