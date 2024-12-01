@@ -198,22 +198,6 @@ function remapValue(value, low1, high1, low2, high2) {
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 }
 
-function groupByProperty(property) {
-    const grouped = {};
-
-    // Iterate over the array and group objects by the property value
-    allRecords.forEach(item => {
-        const key = item.fields[property];
-        if (!grouped[key]) {
-            grouped[key] = [];
-        }
-        grouped[key].push(item);
-    });
-
-    // Convert the grouped object into an array of arrays
-    return Object.values(grouped);
-}
-
 function groupByDate() {
     const grouped = {};
 
@@ -301,35 +285,35 @@ function getMinMaxDate() {
     return minMax;
 }
 
-function graphPointsByTime() {
-    let timeInterval = 15;
-    let minMax = {
-        'minField': 0,
-        'maxField': Math.ceil(1440/timeInterval)
-    };
-
-    // Iterate over the grouped records
-    let groupedByTimeInterval = groupByTimeIntervals(timeInterval);
-
-    for(let i=0; i < groupedByTimeInterval.length; i++) {
-        for(let j=0; j < groupedByTimeInterval[i].length; j++) {
-            let id = groupedByTimeInterval[i][j].id;
-            let timeGroup = i;
-
-            let xPos = (Math.round(remapValue(i, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
-            let yPos = 'calc(50% - calc(10px * ' + j + '))';
-
-            let point = document.getElementById(id);
-            point.style.top = yPos;
-            point.style.left = xPos;
-        }
-    }
-
-    minMax.minField = '12AM';
-    minMax.maxField = '12AM';
-
-    setMinMaxLabels(minMax);
-}
+// function graphPointsByTime() {
+//     let timeInterval = 15;
+//     let minMax = {
+//         'minField': 0,
+//         'maxField': Math.ceil(1440/timeInterval)
+//     };
+//
+//     // Iterate over the grouped records
+//     let groupedByTimeInterval = groupByTimeIntervals(timeInterval);
+//
+//     for(let i=0; i < groupedByTimeInterval.length; i++) {
+//         for(let j=0; j < groupedByTimeInterval[i].length; j++) {
+//             let id = groupedByTimeInterval[i][j].id;
+//             let timeGroup = i;
+//
+//             let xPos = (Math.round(remapValue(i, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
+//             let yPos = 'calc(50% - calc(10px * ' + j + '))';
+//
+//             let point = document.getElementById(id);
+//             point.style.top = yPos;
+//             point.style.left = xPos;
+//         }
+//     }
+//
+//     minMax.minField = '12AM';
+//     minMax.maxField = '12AM';
+//
+//     setMinMaxLabels(minMax);
+// }
 
 function groupByTimeIntervals(intervalMinutes = 15) {
     const grouped = [];

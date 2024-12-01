@@ -65,6 +65,10 @@ function updatePlot(plotData) {
             // Plot the data into sorted groups
             groupPlot(plotData);
             break;
+        case 'Time':
+            // Plot the data linearly
+            fixedGroupPlot(plotData, 96);
+            break;
     }
 
     // Update the data labels
@@ -210,4 +214,69 @@ function getMaxGroupLength(plotData) {
     plotData.plotGroups.forEach(group => {maxGroupLength = Math.max(group.groupData.length, maxGroupLength)});
     
     return maxGroupLength;
+}
+
+// Sorts the graph by Time of Day
+function graphPointsByTime() {
+    // Create the plot data
+    let plotData = groupDataByField(allRecords, 'Ridden Date', 'Time', timeToInterval);
+
+    // Update the data points with new positions and styles
+    updatePlot(plotData);
+}
+
+// Takes an input time and converts it to a 15-minute time interval index
+//  - time: a UTC time value
+function timeToInterval(time) {
+    let intervalMinutes = 15;
+    
+    // Parse the "Ridden Date" field into a Date object
+    let date = new Date(time);
+
+    // Extract hours and minutes
+    let hours = date.getUTCHours();
+    let minutes = date.getUTCMinutes();
+
+    // Calculate the total minutes from midnight
+    let totalMinutes = hours * 60 + minutes;
+
+    // Calculate the index of the interval (e.g., 0 for 00:00-00:15, 1 for 00:15-00:30, etc.)
+    let intervalIndex = Math.floor(totalMinutes / intervalMinutes);
+    
+    return intervalIndex;
+}
+
+// Creates a grouping plot using plotData with a fixed set of groups
+//  - plotData: a PlotData object used to graph the plot
+//  - fixedGroupSize: the amount of groups to plan for
+//  - pointSize: size of the points
+//  - additionalGap: gap between the points in each group
+function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap = 2) {
+    let graphArea = document.getElementById('graph-points-wrapper');
+    let graphWidth = graphArea.offsetWidth;
+
+    let groupWidth = (graphWidth - (fixedGroupSize * pointSize)) / (fixedGroupSize-1);
+    let columnCount = Math.floor(groupWidth/(pointSize + additionalGap));
+
+    let maxGroupLength = getMaxGroupLength(plotData);
+    let rowCount = Math.ceil(maxGroupLength / columnCount);
+
+    for(let i=0; i < plotData.plotGroups.length; i++) {
+        let groupData = plotData.plotGroups[i].groupData;
+        let startingXPosition = groupWidth * i;
+        let startingYPosition =  ((rowCount-1) * additionalGap)/2;
+        for(let j = 0; j < groupData.length; j++) {
+            let id = groupData[j].id;
+            let xIndex = j % columnCount;
+            let yIndex = Math.floor(j/columnCount);
+
+            let xPos = xIndex * (pointSize + additionalGap);
+            let yPos = yIndex * (pointSize + additionalGap);
+
+            let point = document.getElementById(id);
+
+            point.style.top = `calc(50% + ${startingYPosition - yPos}px)`;
+            point.style.left = `calc(${(startingXPosition / graphWidth)*100}% + ${xPos}px`;
+        }
+    }
 }
