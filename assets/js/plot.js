@@ -62,7 +62,7 @@ function updatePlot(plotData) {
             break;
     }
     
-    // TODO: Fix overlapping dots if any exist
+    // Fix overlapping dots if any exist
     resolveOverlaps(plotData, 2);
 
     // Update the data labels
@@ -72,6 +72,13 @@ function updatePlot(plotData) {
 // Graphs the data points in a linear fashion
 //  - plotData: a PlotData object used to graph the plot
 function linearPlot(plotData) {
+    // Get the width of the graph area for the data points
+    let graphArea = document.getElementById('graph-points-wrapper');
+    let graphWidth = graphArea.offsetWidth;
+    let graphHeight = graphArea.offsetHeight;
+    let pointSize = document.getElementById(allRecords[0].id).offsetWidth;
+    let additionalGap = 2;
+    
     // Iterate over each plot group
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let plotGroup = plotData.plotGroups[i];
@@ -82,9 +89,26 @@ function linearPlot(plotData) {
 
             // Y pos will be the count within the group
             // X pos will be the groups position in the linear plot
-            let xPos = (Math.round(remapValue(plotGroup.groupData[j].value, plotData.minimum, plotData.maximum, 0, 100) * 10) / 10) + '%';
+            let xPercentage = Math.round(remapValue(plotGroup.groupData[j].value, plotData.minimum, plotData.maximum, 0, 100) * 10) / 10;
+            let xPos = xPercentage + '%';
             let yPos = '50%';
-
+            // Fix overlaps here
+            // Use the width of the graph area. Find the pixel position of the point based on the xPos above
+            // Use the XPosition to determine if it intersects other previous points, adjust the Y position accordingly
+            // Only run overlap check if we are past the first element
+            if(i > 0) {
+                let realXPosition = graphWidth * (xPercentage/100);
+                let realYPosition = graphHeight * (50/100);
+                let pointBounds = getPointBounds(pointSize, realXPosition, realYPosition);
+                let previousPoint = document.getElementById(plotData.plotGroups[i-1].groupData[0].id);
+                let previousYPercent = previousPoint.style.top.replace(/%/g, '')/100;
+                let previousPointBounds = getPointBounds(pointSize, (previousPoint.style.left.replace(/%/g, '')/100) * graphWidth, previousYPercent * graphHeight);
+                
+                if(testBoundsIntersect(pointBounds, previousPointBounds)) {
+                    yPos = (previousYPercent - ((pointSize + additionalGap) / graphHeight)) + '%';
+                }
+            }
+            
             // Set the styles of the point
             let point = document.getElementById(id);
             point.style.top = yPos;
@@ -109,6 +133,7 @@ function updateLabels(plotData) {
 function resolveOverlaps(plotData, additionalGap = 0) {
     console.log("Resolving Overlaps");
     // TODO: This does not seem to work quite right but after playing with it for a bit I think I need to really dive deeper to figure out why it doesn't work and fix it, so for now I am leaving it but please refactor later!
+    // TODO: Another issue with this approach is that using getClientRect returns the client rect at the moment of request, the issue here is that we are using transitions to move the points so the rects arent accurate. Instead we need a way to calculate the resting position of the point and determine its Y position accordingly
     
     // Get an array of all plotted points as HTML elements
     let pointElements = getPointHtmlElements(plotData);
@@ -119,7 +144,7 @@ function resolveOverlaps(plotData, additionalGap = 0) {
         // Iterate over each element after the current element
         for(let j= i+1; j < pointElements.length; j++) {
             let comparisonElement = pointElements[j];
-
+            
             if(testBoundsIntersecting(primaryElement, comparisonElement)) {
                 // Determine the amount of height to offset the element by
                 let primaryElementHeight = primaryElement.getBoundingClientRect().height;
@@ -161,5 +186,30 @@ function testBoundsIntersecting(element1, element2) {
         rect1.right > rect2.left &&
         rect1.top < rect2.bottom &&
         rect1.bottom > rect2.top
+    );
+}
+
+// Returns a bounds object given an input size and center location
+//  - size: the square size of the point
+//  - x: the center of the point on the X Axis
+//  - y: the center of the point on the Y Axis
+function getPointBounds(size, x, y) {
+    return {
+        top: y - (size/2),
+        bottom: y + (size/2),
+        left: x - (size/2),
+        right: x + (size/2),
+        width: size,
+        height: size
+    }
+}
+
+// Returns a boolean noting the intersection of two bounds given the bounds
+function testBoundsIntersect(bounds1, bounds2) {
+    return (
+        bounds1.left < bounds2.right &&
+        bounds1.right > bounds2.left &&
+        bounds1.top < bounds2.bottom &&
+        bounds1.bottom > bounds2.top
     );
 }
