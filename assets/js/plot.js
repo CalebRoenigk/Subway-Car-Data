@@ -153,6 +153,7 @@ function iterativeOverlapFix(pointElements, additionalGap = 0) {
     }
     
     // Test if any elements overlap
+    let overlapsExist = false;
     for(let i= 0; i < pointElements.length; i++) {
         let primaryElement = pointElements[i];
         // Iterate over each element after the current element
@@ -160,9 +161,13 @@ function iterativeOverlapFix(pointElements, additionalGap = 0) {
             let comparisonElement = pointElements[j];
 
             if(testBoundsIntersecting(primaryElement, comparisonElement)) {
-                iterativeOverlapFix(pointElements, additionalGap);
+                overlapsExist = true;
             }
         }
+    }
+    
+    if(overlapsExist) {
+        iterativeOverlapFix(pointElements, additionalGap);
     }
 }
 
