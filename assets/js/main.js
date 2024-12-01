@@ -156,22 +156,6 @@ function getPointColor(line) {
 
 
 // END MAIN - TODO: REFACTOR AND REMOVE ANY FUNCTIONALITY THAT ISNT NEEDED IN MAIN TO OTHER JS FILES
-// function graphPointsByNumber() {
-//     let minMax = getMinMax('Number');
-//     for(let i=0; i < allRecords.length; i++) {
-//         let id = allRecords[i].id;
-//         let number = allRecords[i].fields['Number'];
-//
-//         let xPos = (Math.round(remapValue(number, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
-//         let yPos = '50%';
-//
-//         let point = document.getElementById(id);
-//         point.style.top = yPos;
-//         point.style.left = xPos;
-//     }
-//
-//     setMinMaxLabels(minMax);
-// }
 
 function setMinMaxLabels(minMax) {
     let axisMin = document.getElementById('axis-minimum');
