@@ -2,7 +2,7 @@
 // ----- Global Variables ----- //
 // ---------------------------- //
 
-const pointSize = 12;
+const pointSize = 10;
 const additionalGap = 2;
 
 // -------------------------- //
