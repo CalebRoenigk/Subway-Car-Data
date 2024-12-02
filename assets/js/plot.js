@@ -1,4 +1,9 @@
-﻿// TODO: Code new plot data creation function
+﻿// ---------------------------- //
+// ----- Global Variables ----- //
+// ---------------------------- //
+
+const pointSize = 12;
+const additionalGap = 2;
 
 // -------------------------- //
 // ----- Sort Functions ----- //
@@ -139,9 +144,7 @@ function updatePlot(plotData) {
 
 // Graphs the data points in a linear fashion
 //  - plotData: a PlotData object used to graph the plot
-//  - pointSize: size of the points
-//  - additionalGap: gap between the points in each group
-function linearPlot(plotData, pointSize = 8, additionalGap = 2) {
+function linearPlot(plotData) {
     // Get the width of the graph area
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
@@ -184,10 +187,8 @@ function linearPlot(plotData, pointSize = 8, additionalGap = 2) {
 
 // Creates a grouping plot using plotData
 //  - plotData: a PlotData object used to graph the plot
-//  - pointSize: size of the points
-//  - additionalGap: gap between the points in each group
 //  - maxColumn: the most columns a group can have
-function groupPlot(plotData, pointSize = 8, additionalGap = 2, maxColumn = 5) {
+function groupPlot(plotData, maxColumn = 5) {
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
 
@@ -220,9 +221,7 @@ function groupPlot(plotData, pointSize = 8, additionalGap = 2, maxColumn = 5) {
 // Creates a grouping plot using plotData with a fixed set of groups
 //  - plotData: a PlotData object used to graph the plot
 //  - fixedGroupSize: the amount of groups to plan for
-//  - pointSize: size of the points
-//  - additionalGap: gap between the points in each group
-function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap = 2) {
+function fixedGroupPlot(plotData, fixedGroupSize) {
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
 
@@ -256,9 +255,7 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
 
 // Graphs the data points in one large group
 //  - plotData: a PlotData object used to graph the plot
-//  - pointSize: size of the points
-//  - additionalGap: gap between the points in each group
-function singleGroupPlot(plotData, pointSize = 8, additionalGap = 2) {
+function singleGroupPlot(plotData) {
     // Get the total count of all items in the plot (records)
     let totalRecords = plotData.getRecordCount();
     
