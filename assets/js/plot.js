@@ -254,7 +254,7 @@ function dateToInterval(time) {
     let intervalDays = 3;
 
     // Parse the input into a Date object
-    let parsedDate = new Date(date);
+    let parsedDate = new Date(time);
 
     // Get the start of the year for the given date
     let startOfYear = new Date(parsedDate.getUTCFullYear(), 0, 1);
