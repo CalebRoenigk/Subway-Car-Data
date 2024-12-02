@@ -71,8 +71,7 @@ function graphPointsByDate() {
 function graphPointsByLine() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Line', 'Line');
-
-    // TODO: THIS SORT OF LINE SHOULD BE A-Z then NUMBERS
+    
     // Sort by line
     plotData.plotGroups.sort((a, b) => {
         const groupNameA = a.groupName;
