@@ -149,6 +149,8 @@ function linearPlot(plotData, pointSize = 8, additionalGap = 2) {
     // Get the max amount of points that can be displayed (the point interval)
     let columnCount =  Math.floor((graphWidth + additionalGap) / (pointSize + additionalGap));
     
+    // TODO: Mostly working but seems to be a bit off screen
+    
     let columnStacks = [];
     for(let i=0; i < plotData.plotGroups.length; i++) {
         // Get the id of the data point
