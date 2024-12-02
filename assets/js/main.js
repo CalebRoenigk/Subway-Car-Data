@@ -7,6 +7,9 @@
 // Add axis group labels?
 // Add ability to display errors from airtable
 // Add ability to save data to local storage and only retrieve from airtable once a day (prevents flooding airtable with a ton of requests)
+// Add ability to color points based on different properties besides sort (color by line, color by type, by time, etc)
+// Rework data intake to simplify format of data from airtable (merge down fields into the record so it is easier to sort the data later)
+// Move point size to a global variable and gap size too, configure this to apply to the CSS as well
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -186,28 +189,28 @@ function groupByDate() {
     return Object.values(grouped);
 }
 
-function graphPointsByDate() {
-    let minMax = getMinMaxDate();
-
-    // Iterate over the grouped records
-    let groupedByDate = groupByDate();
-
-    for(let i=0; i < groupedByDate.length; i++) {
-        for(let j=0; j < groupedByDate[i].length; j++) {
-            let id = groupedByDate[i][j].id;
-            let date = getDateAsYearValue(groupedByDate[i][j].fields['Ridden Date']);
-
-            let xPos = (Math.round(remapValue(date, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
-            let yPos = 'calc(50% - calc(10px * ' + j + '))';
-
-            let point = document.getElementById(id);
-            point.style.top = yPos;
-            point.style.left = xPos;
-        }
-    }
-
-    setMinMaxLabels(minMax);
-}
+// function graphPointsByDate() {
+//     let minMax = getMinMaxDate();
+//
+//     // Iterate over the grouped records
+//     let groupedByDate = groupByDate();
+//
+//     for(let i=0; i < groupedByDate.length; i++) {
+//         for(let j=0; j < groupedByDate[i].length; j++) {
+//             let id = groupedByDate[i][j].id;
+//             let date = getDateAsYearValue(groupedByDate[i][j].fields['Ridden Date']);
+//
+//             let xPos = (Math.round(remapValue(date, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
+//             let yPos = 'calc(50% - calc(10px * ' + j + '))';
+//
+//             let point = document.getElementById(id);
+//             point.style.top = yPos;
+//             point.style.left = xPos;
+//         }
+//     }
+//
+//     setMinMaxLabels(minMax);
+// }
 
 function getDateAsYearValue(dateString) {
     // Create a Date object from the input string
