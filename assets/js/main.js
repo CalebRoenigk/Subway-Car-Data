@@ -38,7 +38,7 @@ async function fetchAllRecords() {
 
         /* console.log(allRecords[0]); */
         generateDataPoints();
-        graphPointsByNumber();
+        graphPointsByLine();
     } catch (error) {
         console.error('Error fetching records:', error);
     }
