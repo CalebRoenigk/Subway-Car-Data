@@ -34,6 +34,16 @@ class PlotData {
                 break;
         }
     }
+    
+    // Returns a count of all records present in the plot
+    getRecordCount() {
+        let recordCount = 0;
+        this.plotGroups.forEach(group => {
+            recordCount += group.groupData.length;
+        });
+        
+        return recordCount;
+    }
 }
 
 // A group of data that appears in a plot, groupData is an array of PlotValues

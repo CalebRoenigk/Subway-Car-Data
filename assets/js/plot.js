@@ -1,36 +1,8 @@
 ﻿// TODO: Code new plot data creation function
 
-// ---------------------------------------- //
-// ----- Core Update & Sort Functions ----- //
-// ---------------------------------------- //
-
-// Uses PlotData to set the positions and properties of each data point
-//  - plotData: a PlotData object used to graph the plot
-function updatePlot(plotData) {
-    // First determine the plot method via plotType
-    switch(plotData.plotType) {
-        default:
-        case 'Number':
-            // Plot the data linearly
-            linearPlot(plotData);
-            break;
-        case 'Car Type':
-            // Plot the data into sorted groups
-            groupPlot(plotData);
-            break;
-        case 'Time':
-            // Plot the data linearly
-            fixedGroupPlot(plotData, 96);
-            break;
-        case 'Day':
-            // Plot the data linearly
-            fixedGroupPlot(plotData, 122);
-            break;
-    }
-
-    // Update the data labels
-    updateLabels(plotData);
-}
+// -------------------------- //
+// ----- Sort Functions ----- //
+// -------------------------- //
 
 // Sorts the graph by Car Number
 function graphPointsByNumber() {
@@ -56,7 +28,7 @@ function graphPointsByType() {
         return numA - numB;
     });
 
-    // TODO: FIx this, it doesnt seem to quite work
+    // TODO: Fix this, it doesnt seem to quite work
     // Sort by line within groups
     plotData.plotGroups.forEach(group => {
         group.groupData.sort((itemA, itemB) => {
@@ -94,9 +66,53 @@ function graphPointsByDate() {
     updatePlot(plotData);
 }
 
+// Sorts the graph by Line
+function graphPointsByLine() {
+    // Create the plot data
+    let plotData = groupDataByField(allRecords, 'Line', 'Line');
+
+    // Sort by line
+    plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
+
+    // Update the data points with new positions and styles
+    updatePlot(plotData);
+}
+
 // -------------------------- //
 // ----- Plot Functions ----- //
 // -------------------------- //
+
+// Uses PlotData to set the positions and properties of each data point
+//  - plotData: a PlotData object used to graph the plot
+function updatePlot(plotData) {
+    // First determine the plot method via plotType
+    switch(plotData.plotType) {
+        default:
+        case 'Number':
+            // Plot the data linearly
+            linearPlot(plotData);
+            break;
+        case 'Car Type':
+            // Plot the data into sorted groups
+            groupPlot(plotData);
+            break;
+        case 'Time':
+            // Plot the data linearly
+            fixedGroupPlot(plotData, 96);
+            break;
+        case 'Day':
+            // Plot the data linearly
+            fixedGroupPlot(plotData, 122);
+            break;
+        case 'Line':
+            // Plot the data linearly
+            singleGroupPlot(plotData);
+            break;
+    }
+
+    // Update the data labels
+    updateLabels(plotData);
+}
 
 // Graphs the data points in a linear fashion
 //  - plotData: a PlotData object used to graph the plot
@@ -221,7 +237,39 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     }
 }
 
-// TODO: Make a Single Group Plot for the line visualization
+// Graphs the data points in one large group
+//  - plotData: a PlotData object used to graph the plot
+function singleGroupPlot(plotData, pointSize = 8, additionalGap = 2) {
+    // Get the total count of all items in the plot (records)
+    let totalRecords = plotData.getRecordCount();
+    
+    // Determine the square root of the value
+    let columnCount = Math.ceil(Math.sqrt(totalRecords));
+    
+    // Determine the top left starting position
+    let startingXPosition = -(((pointSize * columnCount) + (additionalGap * (columnCount-1)))/2);
+    let startingYPosition = -(((pointSize * columnCount) + (additionalGap * (columnCount-1)))/2);
+    
+    let plotIndex = 0;
+    for(let i=0; i < plotData.plotGroups.length; i++) {
+        let plotGroup = plotData.plotGroups[i].groupData;
+        for(let j=0; j < plotGroup.length; j++) {
+            let id = plotGroup[j].id;
+            let xIndex = plotIndex % columnCount;
+            let yIndex = Math.floor(plotIndex / columnCount);
+
+            let xPos = xIndex * (pointSize + additionalGap);
+            let yPos = yIndex * (pointSize + additionalGap);
+
+            let point = document.getElementById(id);
+
+            point.style.top = `calc(50% + ${startingYPosition + yPos}px)`;
+            point.style.left = `calc(50% + ${startingXPosition + xPos}px)`;
+            
+            plotIndex++;
+        }
+    }
+}
 
 // -------------------------------------- //
 // ----- Field Preprocess Functions ----- //
