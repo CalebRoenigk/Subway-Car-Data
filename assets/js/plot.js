@@ -22,6 +22,10 @@ function updatePlot(plotData) {
             // Plot the data linearly
             fixedGroupPlot(plotData, 96);
             break;
+        case 'Day':
+            // Plot the data linearly
+            fixedGroupPlot(plotData, 122);
+            break;
     }
 
     // Update the data labels
@@ -70,6 +74,18 @@ function graphPointsByType() {
 function graphPointsByTime() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Ridden Date', 'Time', timeToInterval);
+
+    // Sort by time
+    plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
+
+    // Update the data points with new positions and styles
+    updatePlot(plotData);
+}
+
+// Sorts the graph by Day of Year
+function graphPointsByDate() {
+    // Create the plot data
+    let plotData = groupDataByField(allRecords, 'Ridden Date', 'Day', dateToInterval);
 
     // Sort by time
     plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
@@ -228,6 +244,29 @@ function timeToInterval(time) {
 
     // Calculate the index of the interval (e.g., 0 for 00:00-00:15, 1 for 00:15-00:30, etc.)
     let intervalIndex = Math.floor(totalMinutes / intervalMinutes);
+
+    return intervalIndex;
+}
+
+// Takes an input time and converts it to a day of the year interval index
+//  - time: a UTC time value
+function dateToInterval(time) {
+    let intervalDays = 3;
+
+    // Parse the input into a Date object
+    let parsedDate = new Date(date);
+
+    // Get the start of the year for the given date
+    let startOfYear = new Date(parsedDate.getUTCFullYear(), 0, 1);
+
+    // Calculate the difference in milliseconds between the input date and the start of the year
+    let diffInMillis = parsedDate - startOfYear;
+
+    // Convert the difference into days (1 day = 86400000 milliseconds)
+    let dayIndex = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
+
+    // Calculate the index of the interval
+    let intervalIndex = Math.floor(dayIndex / intervalDays);
 
     return intervalIndex;
 }
