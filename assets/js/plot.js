@@ -139,13 +139,18 @@ function updatePlot(plotData) {
 
 // Graphs the data points in a linear fashion
 //  - plotData: a PlotData object used to graph the plot
-function linearPlot(plotData) {
-    // Get the width of the graph area for the data points
+//  - pointSize: size of the points
+//  - additionalGap: gap between the points in each group
+function linearPlot(plotData, pointSize = 8, additionalGap = 2) {
+    // Get the width of the graph area
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
-    let graphHeight = graphArea.offsetHeight;
-    let pointSize = document.getElementById(allRecords[0].id).offsetWidth;
-    let additionalGap = 2;
+    
+    // Get the max amount of points that can be displayed (the point interval)
+    let columnCount =  Math.floor((graphWidth + additionalGap) / (pointSize + additionalGap));
+    
+    console.log(plotData);
+    
 
     // Iterate over each plot group
     for(let i=0; i < plotData.plotGroups.length; i++) {
@@ -168,7 +173,7 @@ function linearPlot(plotData) {
             // Only run overlap check if we are past the first element
             if(i > 0) {
                 let realXPosition = graphWidth * (xPercentage/100);
-                let realYPosition = graphHeight * (50/100);
+                let realYPosition = 1 * (50/100);
                 let pointBounds = getPointBounds(pointSize, realXPosition, realYPosition);
                 let previousPoint = document.getElementById(plotData.plotGroups[i-1].groupData[0].id);
                 let previousYPercent = previousPoint.style.top.replace(/%/g, '')/100;
@@ -261,6 +266,8 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
 
 // Graphs the data points in one large group
 //  - plotData: a PlotData object used to graph the plot
+//  - pointSize: size of the points
+//  - additionalGap: gap between the points in each group
 function singleGroupPlot(plotData, pointSize = 8, additionalGap = 2) {
     // Get the total count of all items in the plot (records)
     let totalRecords = plotData.getRecordCount();
