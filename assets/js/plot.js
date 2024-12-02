@@ -19,6 +19,7 @@ function graphPointsByType() {
     let plotData = groupDataByField(allRecords, 'Car Type', 'Car Type');
 
     // Sort by type
+    // TODO: Maybe we move this into its own function?
     plotData.plotGroups.sort((a, b) => {
         // Extract the numeric part after "R" from the groupName
         const numA = parseInt(a.groupName.slice(1));
@@ -73,7 +74,28 @@ function graphPointsByLine() {
 
     // TODO: THIS SORT OF LINE SHOULD BE A-Z then NUMBERS
     // Sort by line
-    plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
+    plotData.plotGroups.sort((a, b) => {
+        const groupNameA = a.groupName;
+        const groupNameB = b.groupName;
+
+        // Check if both groupNames are numeric
+        const isANumeric = !isNaN(groupNameA);
+        const isBNumeric = !isNaN(groupNameB);
+
+        if (isANumeric && isBNumeric) {
+            // Compare as numbers if both are numeric
+            return parseInt(groupNameA) - parseInt(groupNameB);
+        } else if (isANumeric) {
+            // Numeric comes after alphabetic
+            return 1;
+        } else if (isBNumeric) {
+            // Alphabetic comes before numeric
+            return -1;
+        } else {
+            // Compare alphabetically if both are alphabetic
+            return groupNameA.localeCompare(groupNameB);
+        }
+    });
     console.log(plotData);
 
     // Update the data points with new positions and styles
