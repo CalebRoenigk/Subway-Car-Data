@@ -71,8 +71,10 @@ function graphPointsByLine() {
     // Create the plot data
     let plotData = groupDataByField(allRecords, 'Line', 'Line');
 
+    // TODO: THIS SORT OF LINE SHOULD BE A-Z then NUMBERS
     // Sort by line
     plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
+    console.log(plotData);
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
@@ -205,7 +207,6 @@ function groupPlot(plotData, pointSize = 8, additionalGap = 2, maxColumn = 5) {
 //  - pointSize: size of the points
 //  - additionalGap: gap between the points in each group
 function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap = 2) {
-    console.log("Starting fixed Plot")
     let graphArea = document.getElementById('graph-points-wrapper');
     let graphWidth = graphArea.offsetWidth;
 
@@ -215,7 +216,7 @@ function fixedGroupPlot(plotData, fixedGroupSize, pointSize = 8, additionalGap =
     let maxGroupLength = getMaxGroupLength(plotData);
     let rowCount = Math.ceil(maxGroupLength / columnCount);
 
-    console.log(`Col: ${columnCount} | Row: ${rowCount} | Group Width: ${groupWidth} | Calc Col: ${Math.floor(groupWidth/(pointSize + additionalGap))}`);
+    // console.log(`Col: ${columnCount} | Row: ${rowCount} | Group Width: ${groupWidth} | Calc Col: ${Math.floor(groupWidth/(pointSize + additionalGap))}`);
 
     for(let i=0; i < plotData.plotGroups.length; i++) {
         let groupData = plotData.plotGroups[i].groupData;
