@@ -149,46 +149,35 @@ function linearPlot(plotData, pointSize = 8, additionalGap = 2) {
     // Get the max amount of points that can be displayed (the point interval)
     let columnCount =  Math.floor((graphWidth + additionalGap) / (pointSize + additionalGap));
     
-    console.log(plotData);
-    
-
-    // Iterate over each plot group
+    let columnStacks = [];
     for(let i=0; i < plotData.plotGroups.length; i++) {
-        let plotGroup = plotData.plotGroups[i];
-        // Iterate over the data in each plot group
-        for(let j=0; j < plotGroup.groupData.length; j++) {
-            // Get the id of the data point
-            let id = plotGroup.groupData[j].id;
-
-            // Y pos will be the count within the group
-            // X pos will be the groups position in the linear plot
-            let xPercentage = Math.round(remapValue(plotGroup.groupData[j].value, plotData.minimum, plotData.maximum, 0, 100) * 10) / 10;
-            let xPos = xPercentage + '%';
-            let yPos = '50%';
-
-            // TODO: Lets take a deeper dive on this code later because I think it still could be improved, its currently a bit 'messy' and also doesn't seem to account for intersections fully.
-            // Fix overlaps here
-            // Use the width of the graph area. Find the pixel position of the point based on the xPos above
-            // Use the XPosition to determine if it intersects other previous points, adjust the Y position accordingly
-            // Only run overlap check if we are past the first element
-            if(i > 0) {
-                let realXPosition = graphWidth * (xPercentage/100);
-                let realYPosition = 1 * (50/100);
-                let pointBounds = getPointBounds(pointSize, realXPosition, realYPosition);
-                let previousPoint = document.getElementById(plotData.plotGroups[i-1].groupData[0].id);
-                let previousYPercent = previousPoint.style.top.replace(/%/g, '')/100;
-                let previousPointBounds = getPointBounds(pointSize, (previousPoint.style.left.replace(/%/g, '')/100) * graphWidth, previousYPercent * graphHeight);
-
-                if(testBoundsIntersect(pointBounds, previousPointBounds)) {
-                    yPos = ((previousYPercent - ((pointSize + additionalGap) / graphHeight))*100) + '%';
-                }
-            }
-
-            // Set the styles of the point
-            let point = document.getElementById(id);
-            point.style.top = yPos;
-            point.style.left = xPos;
+        // Get the id of the data point
+        let data = plotData.plotGroups[i].groupData[0];
+        let id = data.id;
+        let number = data.value;
+        
+        // Get the column the value is meant to be in
+        let xIndex = Math.floor(number/columnCount);
+        let yIndex = 0;
+        let columnStackIndex = columnStacks.findIndex(stack => stack.index === xIndex);
+        if(columnStackIndex !== -1) {
+            // The stack exists already, add one to the stack and use this as your yIndex
+            columnStacks[columnStackIndex].count++;
+            yIndex = columnStacks[columnStackIndex].count;
+        } else {
+            columnStacks.push({index: xIndex, count: 0});
         }
+        
+        let xPos = (xIndex * pointSize) + (Math.max(xIndex-1, 0) * additionalGap);
+        let yPos = (yIndex * pointSize) + (Math.max(yIndex-1, 0) * additionalGap);
+        
+        xPos = `${(xPos / graphWidth) * 100}%`;
+        yPos = `calc(50% - ${yPos}px)`;
+
+        // Set the styles of the point
+        let point = document.getElementById(id);
+        point.style.top = yPos;
+        point.style.left = xPos;
     }
 }
 
@@ -389,33 +378,6 @@ function groupDataByField(data, field, plotType, preprocessFunction = null) {
     
     // Return the plot data
     return plotData;
-}
-
-// Returns a bounds object given an input size and center location
-//  - size: the square size of the point
-//  - x: the center of the point on the X Axis
-//  - y: the center of the point on the Y Axis
-function getPointBounds(size, x, y) {
-    return {
-        top: y - (size/2),
-        bottom: y + (size/2),
-        left: x - (size/2),
-        right: x + (size/2),
-        width: size,
-        height: size
-    }
-}
-
-// Returns a boolean noting the intersection of two bounds given the bounds
-//  - bounds1: the first point bounds
-//  - bounds2: the second point bounds
-function testBoundsIntersect(bounds1, bounds2) {
-    return (
-        bounds1.left < bounds2.right &&
-        bounds1.right > bounds2.left &&
-        bounds1.top < bounds2.bottom &&
-        bounds1.bottom > bounds2.top
-    );
 }
 
 // Returns the largest group from a given plot data
