@@ -189,29 +189,6 @@ function groupByDate() {
     return Object.values(grouped);
 }
 
-// function graphPointsByDate() {
-//     let minMax = getMinMaxDate();
-//
-//     // Iterate over the grouped records
-//     let groupedByDate = groupByDate();
-//
-//     for(let i=0; i < groupedByDate.length; i++) {
-//         for(let j=0; j < groupedByDate[i].length; j++) {
-//             let id = groupedByDate[i][j].id;
-//             let date = getDateAsYearValue(groupedByDate[i][j].fields['Ridden Date']);
-//
-//             let xPos = (Math.round(remapValue(date, minMax.minField, minMax.maxField, 0, 100)*10)/10) + '%';
-//             let yPos = 'calc(50% - calc(10px * ' + j + '))';
-//
-//             let point = document.getElementById(id);
-//             point.style.top = yPos;
-//             point.style.left = xPos;
-//         }
-//     }
-//
-//     setMinMaxLabels(minMax);
-// }
-
 function getDateAsYearValue(dateString) {
     // Create a Date object from the input string
     const date = new Date(dateString);
