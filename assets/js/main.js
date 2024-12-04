@@ -11,18 +11,106 @@
 // Rework data intake to simplify format of data from airtable (merge down fields into the record so it is easier to sort the data later)
 // Move point size to a global variable and gap size too, configure this to apply to the CSS as well
 
+// ---------------------------- //
+// ----- Global Variables ----- //
+// ---------------------------- //
+
+const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtable Data Cache
+
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
-
 Airtable.configure({
     endpointUrl: 'https://api.airtable.com',
     apiKey: airtableToken
 });
 var base = Airtable.base('appB6vHrDyR6I0t4a');
-const allRecords = [];
+// const allRecords = [];
+
+// -------------------- //
+// ----- Document ----- //
+// -------------------- //
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve Airtable data from local cache or from API
+    getAirtableData();
+});
+
+// ------------------------- //
+// ----- Airtable Data ----- //
+// ------------------------- //
+
+function getAirtableData() {
+    // Check if airtable data exists locally (date dependant)
+    let airtableDataCached = airtableDataCached();
+
+    let airtableData = {};
+    if(airtableDataCached) {
+        // If it is and isnt old, use this data
+        airtableData = retrieveCachedData(airtableDataKey);
+    } else {
+        // If airtable data is not present, get it
+        let airtableRecords = fetchAllRecords();
+        
+        console.log(airtableRecords);
+        airtableData = {};// TODO: CODE HERE
+        // Process the airtable return
+        
+        // Store it
+        cacheExpringData(airtableDataKey, data, getFutureTime());
+    }
+
+    // TODO: Initialize the plot
+}
+
+// Returns a boolean if there is cached airtable data
+function airtableDataCached() {
+    if(localStorage.getItem(airtableDataKey) === null) {
+        return false;
+    }
+
+    return checkAirtableCacheValid();
+}
+
+// Checks if cached data is expired, and if it is, deletes it
+function checkAirtableCacheValid() {
+    let cacheData = JSON.parse(localStorage.getItem(airtableDataKey));
+
+    if(cacheData.expireDate <= new Date().getTime()) {
+        localStorage.removeItem(airtableDataKey);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// Returns a date (as time in milliseconds) a passed number of days from the current time
+//	- days: a number of days in the future, defaults to 1
+function getFutureTime(days = 1) {
+    return new Date().getTime() + (24 * 60 * 60 * 1000 * days);
+}
+
+// Stores data in local storage with an expiration date
+//	- key: the key for the data
+//	- data: the data as an object to be stored
+//	- expireDate: a time value that the data expires on
+function cacheExpringData(key, data, expireDate) {
+    let expireData = {
+        'expireDate': expireDate,
+        'data': data
+    };
+
+    localStorage.setItem(key, JSON.stringify(expireData));
+}
+
+// Returns data from local storage given a key
+//	- key: the key for the data
+function retrieveCachedData(key) {
+    return JSON.parse(localStorage.getItem(key)).data;
+}
 
 // Function to fetch all records
 async function fetchAllRecords() {
+    let allRecords;
     try {
         await base(table)
             .select({
@@ -35,13 +123,14 @@ async function fetchAllRecords() {
                 // Fetch the next page
                 fetchNextPage();
             });
-
-        /* console.log(allRecords[0]); */
-        generateDataPoints();
-        graphPointsByLine();
+        return allRecords;
+        // generateDataPoints(); TODO: MOVE THESE ELSEWHERE
+        // graphPointsByLine();
     } catch (error) {
         console.error('Error fetching records:', error);
     }
+    
+    return null;
 }
 
 // Run the function
@@ -157,7 +246,6 @@ function getPointColor(line) {
             return 'gray-line';
     }
 }
-
 
 // END MAIN - TODO: REFACTOR AND REMOVE ANY FUNCTIONALITY THAT ISNT NEEDED IN MAIN TO OTHER JS FILES
 
