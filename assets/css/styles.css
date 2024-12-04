@@ -21,6 +21,7 @@ h1 {
 h3 {
     font-size: 16px;
     font-weight: 800;
+    margin: 0;
 }
 
 h4 {
@@ -70,6 +71,82 @@ h4 {
 .gray-line {
     --line-color: #808183;
 }
+
+/* ----------------- */
+/* ----- Space ----- */
+/* ----------------- */
+
+#infographic-space {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+/* ----------------- */
+/* ----- Title ----- */
+/* ----------------- */
+
+#title {
+    color: #575757;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ------------------- */
+/* ----- Filters ----- */
+/* ------------------- */
+
+#data-filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.filter-outline {
+    border-width: 1px;
+    border-color: #B2B2B2;
+    border-style: solid;
+    padding: 2px;
+    border-radius: 50vh;
+}
+
+.filter-group > input[type="radio"] {
+    display: none;
+}
+
+label {
+    color: gray;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    transition: 0.25s ease;
+}
+
+input[type="radio"]:checked + label {
+    background-color: black;
+    border-radius: 50vh;
+}
+
+input[type="radio"]:checked + label > h3 {
+    color: #eeeeee;
+}
+
 
 #graph-axis-wrapper {
     color: gray;

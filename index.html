@@ -13,47 +13,118 @@
         <script src="https://cdn.jsdelivr.net/npm/airtable@0.12.2/lib/airtable.umd.min.js"></script>
     </head>
     <body>
-        <div id="graph-wrapper">
-            <div id="graph-controls">
-                <h1>Sort by</h1>
-                <input type="radio" id="number-sort" name="sort" value="number"/>
-                <label for="number-sort" onClick="graphPointsByNumber()">
-                    <h1>Number</h1>
-                </label>
-                <input type="radio" id="type-sort" name="sort" value="type"/>
-                <label for="type-sort" onClick="graphPointsByType()">
-                    <h1>Type</h1>
-                </label>
-                <input type="radio" id="date-sort" name="sort" value="date"/>
-                <label for="date-sort" onClick="graphPointsByDate()">
-                    <h1>Date</h1>
-                </label>
-                <input type="radio" id="time-sort" name="sort" value="time"/>
-                <label for="time-sort" onClick="graphPointsByTime()">
-                    <h1>Time</h1>
-                </label>
-                <input type="radio" id="line-sort" name="sort" value="line" checked/>
-                <label for="line-sort" onClick="graphPointsByLine()">
-                    <h1>Line</h1>
-                </label>
+        <div id="infographic-space">
+            <div id="title">
+                <h1 id="title-sort">A</h1>
+                <h1>/</h1>
+                <h1 id="title-color">B</h1>
             </div>
-            <div id="graph-area">
-                <div id="graph-data-wrapper" class="container">
-                    <div id="graph-axis" class="filler">
-                        <div id="graph-axis-wrapper" class="container">
-                            <h3 id="axis-minimum">
-                            </h3>
-                            <h3 id="axis-maximum">
-                            </h3>
-                        </div>
+            <div id="data-filters">
+                <h3>Filters</h3>
+                <div id="filter-sort" class="filter-group">
+                    <h3>Sort by</h3>
+                    <div id="sorting-options" class="filter-group filter-outline">
+                        <input type="radio" id="number-sort" name="sort" value="number"/>
+                        <label for="number-sort" onClick="graphPointsByNumber()">
+                            <h3>Number</h3>
+                        </label>
+                        <input type="radio" id="type-sort" name="sort" value="type"/>
+                        <label for="type-sort" onClick="graphPointsByType()">
+                            <h3>Type</h3>
+                        </label>
+                        <input type="radio" id="date-sort" name="sort" value="date"/>
+                        <label for="date-sort" onClick="graphPointsByDate()">
+                            <h3>Date</h3>
+                        </label>
+                        <input type="radio" id="time-sort" name="sort" value="time"/>
+                        <label for="time-sort" onClick="graphPointsByTime()">
+                            <h3>Time</h3>
+                        </label>
+                        <input type="radio" id="line-sort" name="sort" value="line" checked/>
+                        <label for="line-sort" onClick="graphPointsByLine()">
+                            <h3>Line</h3>
+                        </label>
                     </div>
-                    <div id="graph-points" class="filler">
-                        <div id="graph-points-wrapper" class="container">
+                </div>
+                <div id="filter-color" class="filter-group">
+                    <h3>Color by</h3>
+                    <div id="coloring-options" class="filter-group filter-outline">
+                        <input type="radio" id="number-color" name="color" value="number"/>
+                        <label for="number-color" onClick="colorPointsByNumber()">
+                            <h3>Number</h3>
+                        </label>
+                        <input type="radio" id="type-color" name="color" value="type"/>
+                        <label for="type-color" onClick="colorPointsByType()">
+                            <h3>Type</h3>
+                        </label>
+                        <input type="radio" id="date-color" name="color" value="date"/>
+                        <label for="date-color" onClick="colorPointsByDate()">
+                            <h3>Date</h3>
+                        </label>
+                        <input type="radio" id="time-color" name="color" value="time"/>
+                        <label for="time-color" onClick="colorPointsByTime()">
+                            <h3>Time</h3>
+                        </label>
+                        <input type="radio" id="line-color" name="color" value="line" checked/>
+                        <label for="line-color" onClick="colorPointsByLine()">
+                            <h3>Line</h3>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="graph-key"></div>
+            <div id="graph-wrapper">
+                <div id="graph-area">
+                    <div id="graph-data-wrapper" class="container">
+                        <div id="graph-points" class="filler">
+                            <div id="graph-points-wrapper" class="container">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<!--        <div id="graph-wrapper">-->
+<!--            <div id="graph-controls">-->
+<!--                <h1>Sort by</h1>-->
+<!--                <input type="radio" id="number-sort" name="sort" value="number"/>-->
+<!--                <label for="number-sort" onClick="graphPointsByNumber()">-->
+<!--                    <h1>Number</h1>-->
+<!--                </label>-->
+<!--                <input type="radio" id="type-sort" name="sort" value="type"/>-->
+<!--                <label for="type-sort" onClick="graphPointsByType()">-->
+<!--                    <h1>Type</h1>-->
+<!--                </label>-->
+<!--                <input type="radio" id="date-sort" name="sort" value="date"/>-->
+<!--                <label for="date-sort" onClick="graphPointsByDate()">-->
+<!--                    <h1>Date</h1>-->
+<!--                </label>-->
+<!--                <input type="radio" id="time-sort" name="sort" value="time"/>-->
+<!--                <label for="time-sort" onClick="graphPointsByTime()">-->
+<!--                    <h1>Time</h1>-->
+<!--                </label>-->
+<!--                <input type="radio" id="line-sort" name="sort" value="line" checked/>-->
+<!--                <label for="line-sort" onClick="graphPointsByLine()">-->
+<!--                    <h1>Line</h1>-->
+<!--                </label>-->
+<!--            </div>-->
+<!--            <div id="graph-area">-->
+<!--                <div id="graph-data-wrapper" class="container">-->
+<!--                    <div id="graph-axis" class="filler">-->
+<!--                        <div id="graph-axis-wrapper" class="container">-->
+<!--                            <h3 id="axis-minimum">-->
+<!--                            </h3>-->
+<!--                            <h3 id="axis-maximum">-->
+<!--                            </h3>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div id="graph-points" class="filler">-->
+<!--                        <div id="graph-points-wrapper" class="container">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <script src="./assets/js/main.js"></script>
         <script src="./assets/js/plot.js"></script>
         <script src="./assets/js/plotData.js"></script>
