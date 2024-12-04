@@ -38,6 +38,7 @@ startup();
 
 // Grabs airtable data and draws the infographic for the first time
 function startup() {
+    // Retrieve the airtable data from local cache or API
     getAirtableData();
 }
 
@@ -45,13 +46,14 @@ function startup() {
 // ----- Airtable Data ----- //
 // ------------------------- //
 
+// Retrieve the airtable data from local cache or API
 function getAirtableData() {
     // Check if airtable data exists locally (date dependant)
-    let airtableDataCached = airtableDataCached();
+    let airtableCached = airtableDataCached();
 
     let airtableData = {};
-    if(airtableDataCached) {
-        // If it is and isnt old, use this data
+    if(airtableCached) {
+        // If it is and isn't old, use this data
         airtableData = retrieveCachedData(airtableDataKey);
     } else {
         // If airtable data is not present, get it
