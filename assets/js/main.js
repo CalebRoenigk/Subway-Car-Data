@@ -118,7 +118,7 @@ function retrieveCachedData(key) {
 
 // Function to fetch all records
 async function fetchAllRecords() {
-    let allRecords;
+    let allRecords = [];
     try {
         await base(table)
             .select({
@@ -131,6 +131,7 @@ async function fetchAllRecords() {
                 // Fetch the next page
                 fetchNextPage();
             });
+        console.log("Test", allRecords);
         return allRecords;
         // generateDataPoints(); TODO: MOVE THESE ELSEWHERE
         // graphPointsByLine();
@@ -138,7 +139,7 @@ async function fetchAllRecords() {
         console.error('Error fetching records:', error);
     }
     
-    return null;
+    return allRecords;
 }
 
 // Run the function
