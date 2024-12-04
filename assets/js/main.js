@@ -30,10 +30,16 @@ var base = Airtable.base('appB6vHrDyR6I0t4a');
 // ----- Document ----- //
 // -------------------- //
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Retrieve Airtable data from local cache or from API
+startup();
+
+// ------------------------- //
+// ----- Initialization ----- //
+// ------------------------- //
+
+// Grabs airtable data and draws the infographic for the first time
+function startup() {
     getAirtableData();
-});
+}
 
 // ------------------------- //
 // ----- Airtable Data ----- //
