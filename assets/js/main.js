@@ -273,7 +273,7 @@ function getDataRanges(data) {
             // Min
             dataRanges['Number']['min'] = Math.min(dataRanges['Number']['min'], record['Number']);
             // Max
-            dataRanges['Number']['max'] = Math.min(dataRanges['Number']['max'], record['Number']);
+            dataRanges['Number']['max'] = Math.max(dataRanges['Number']['max'], record['Number']);
         }
 
         // Car Type
@@ -302,7 +302,7 @@ function getDataRanges(data) {
             // Min
             dataRanges['Time']['min'] = Math.min(dataRanges['Time']['min'], timeToTimeOfDay(record['Ridden Date']));
             // Max
-            dataRanges['Time']['max'] = Math.min(dataRanges['Time']['max'], timeToTimeOfDay(record['Ridden Date']));
+            dataRanges['Time']['max'] = Math.max(dataRanges['Time']['max'], timeToTimeOfDay(record['Ridden Date']));
         }
 
         // Day
@@ -313,7 +313,7 @@ function getDataRanges(data) {
             // Min
             dataRanges['Day']['min'] = Math.min(dataRanges['Day']['min'], timeToMonthIndex(record['Ridden Date']));
             // Max
-            dataRanges['Day']['max'] = Math.min(dataRanges['Day']['max'], timeToMonthIndex(record['Ridden Date']));
+            dataRanges['Day']['max'] = Math.max(dataRanges['Day']['max'], timeToMonthIndex(record['Ridden Date']));
         }
     }
 
