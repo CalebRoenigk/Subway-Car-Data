@@ -17,6 +17,7 @@
 const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtable Data Cache
 let dataRanges = {};
 let data = [];
+let colorGradients = [];
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -25,7 +26,6 @@ Airtable.configure({
     apiKey: airtableToken
 });
 var base = Airtable.base('appB6vHrDyR6I0t4a');
-// const allRecords = [];
 
 // -------------------- //
 // ----- Document ----- //
@@ -41,6 +41,9 @@ startup();
 function startup() {
     // Assign listeners to both filter groups
     assignListenersToFilters();
+    
+    // Create the gradients
+    createGradients();
     
     // Retrieve the airtable data from local cache or API
     loadAirtableData();
@@ -509,6 +512,23 @@ function getMinMaxDate() {
     return minMax;
 }
 
-function graphPointsByLine() {
-    // TODO: CODE HERE
+// ----------------------------- //
+// ----- Utility Functions ----- //
+// ----------------------------- //
+
+// Creates the gradients for coloring points
+function createGradients() {
+    // Time
+    let timeGradient = new Gradient([new GradientStop(new Color('#FFFD50'), 0), new GradientStop(new Color('#DBDDE2'), 0.38),new GradientStop(new Color('#0363D2'), 0.73), new GradientStop(new Color('#030434'), 1)])
+
+    colorGradients.push({
+        'name': 'Time',
+        'gradient': timeGradient
+    });
+
+    // Date
+    // TODO: Make Gradient
+
+    // Number
+    // TODO: Make Gradient
 }

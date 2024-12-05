@@ -1,5 +1,4 @@
-﻿// TODO: CODE HERE
-// This class is purely used to hold data to be used in a plot
+﻿// This class is purely used to hold data to be used in a plot
 
 // The main data object for a plot
 class PlotData {

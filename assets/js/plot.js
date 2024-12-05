@@ -123,6 +123,24 @@ function colorPointsByLine() {
     }
 }
 
+// Color the graph by time
+function colorPointsByTime() {
+    console.log('coloring by time')
+    // Get the color gradient
+    let gradient = getColorGradient('Time');
+    
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let time  = data[i]['Ridden Date'];
+        let factor = remapValue(timeToTimeOfDay(time), dataRanges['Time']['min'], dataRanges['Time']['max'], 0, 1);
+
+        let color = gradient.getColorAtPoint(factor).getRGBA();
+
+        point.style.backgroundColor = color;
+    }
+}
+
 // -------------------------- //
 // ----- Plot Functions ----- //
 // -------------------------- //
@@ -451,4 +469,10 @@ function getLineHex(color) {
         case 'gray':
             return '#808183';
     }
+}
+
+// Returns a color gradient based on name
+//  - name: the name of the gradient
+function getColorGradient(name) {
+    return colorGradients.find(gradientObj => gradientObj.name === name).gradient;
 }
