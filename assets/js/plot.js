@@ -4,7 +4,6 @@
 
 const pointSize = 10;
 const additionalGap = 2;
-let colorGradients = [];
 
 // -------------------------- //
 // ----- Sort Functions ----- //
