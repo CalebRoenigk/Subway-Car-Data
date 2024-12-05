@@ -135,7 +135,7 @@ function colorPointsByTime() {
         let time  = data[i]['Ridden Date'];
         let factor = remapValue(timeToTimeOfDay(time), dataRanges['Time']['min'], dataRanges['Time']['max'], 0, 1);
 
-        let color = gradient.getColorAtPoint(factor).getRGBA();
+        let color = gradient.getColorAtPoint(factor).color.getRGBA();
 
         point.style.backgroundColor = color;
     }
