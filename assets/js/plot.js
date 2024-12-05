@@ -156,7 +156,7 @@ function updatePlot(plotData) {
     }
 
     // Update the data labels
-    updateLabels(plotData);
+    // updateLabels(plotData); // TODO: Fix this so it works correctly
 }
 
 // Graphs the data points in a linear fashion
