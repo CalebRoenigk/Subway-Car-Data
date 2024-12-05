@@ -65,7 +65,7 @@ function loadAirtableData() {
 // Retrieve the airtable data from the API and store it to local cache
 async function getAirtableData() {
     await fetchAllRecords().then(value => {
-        console.log("fetched records", value)
+        console.log("fetched records", value);
         let data = processAirtableData(value);
         // Store it
         cacheExpringData(airtableDataKey, data, getFutureTime());
@@ -161,8 +161,6 @@ async function fetchAllRecords() {
     } catch (error) {
         console.error('Error fetching records:', error);
     }
-    
-    return allRecords;
 }
 
 // Run the function
