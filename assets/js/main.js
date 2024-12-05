@@ -39,7 +39,7 @@ startup();
 // Grabs airtable data and draws the infographic for the first time
 function startup() {
     // Retrieve the airtable data from local cache or API
-    getAirtableData();
+    loadAirtableData();
 }
 
 // ------------------------- //
