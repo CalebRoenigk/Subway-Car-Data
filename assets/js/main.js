@@ -343,7 +343,7 @@ function generatePoint(id, i) {
     point.classList.add('data-point');
     point.style.position = 'absolute';
     point.style.transitionDelay = i * 0.005 + 's';
-    point.classList.add(getPointColor(line));
+    // point.classList.add(getPointColor(line));
 
     // createTooltip(point, id); // TODO: Get this working and looking good
 
