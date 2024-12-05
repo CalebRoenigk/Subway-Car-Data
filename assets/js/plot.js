@@ -171,6 +171,7 @@ function colorPointsByNumber() {
         let factor = remapValue(number, dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
 
         let color = gradient.getColorAtPoint(factor).color.getRGBA();
+        console.log(i, factor, number, dataRanges['Number']['min'], dataRanges['Number']['max']);
 
         point.style.backgroundColor = color;
     }

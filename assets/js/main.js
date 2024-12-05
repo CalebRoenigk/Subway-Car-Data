@@ -541,4 +541,12 @@ function createGradients() {
         'name': 'Number',
         'gradient': numberGradient
     });
+
+    // Type
+    let typeGradient = new Gradient([new GradientStop(new Color('#EDC148'), 0), new GradientStop(new Color('#7FEC56'), 0.5), new GradientStop(new Color('#68F2FF'), 1)])
+
+    colorGradients.push({
+        'name': 'Type',
+        'gradient': typeGradient
+    });
 }
