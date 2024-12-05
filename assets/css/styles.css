@@ -212,7 +212,7 @@ input[type="radio"]:checked + label > h3 {
 
 .data-point {
     aspect-ratio: 1 / 1;
-    background-color: var(--line-color);
+    background-color: transparent;
     border-radius: 50%;
     transform: translateX(-50%);
     transition: top 1s cubic-bezier(0.5, 0, 0.5, 1), left 1s cubic-bezier(0.5, 0, 0.5, 1), background-color 0.375s ease;
