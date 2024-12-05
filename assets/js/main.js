@@ -46,18 +46,20 @@ function startup() {
 // ----- Airtable Data ----- //
 // ------------------------- //
 
-// Loads the airtable data from local cache or from API
+// Loads the airtable data from API
 function loadAirtableData() {
-    // Check if airtable data exists locally (date dependant)
-    let airtableCached = airtableDataCached();
+    // // Check if airtable data exists locally (date dependant)
+    // let airtableCached = airtableDataCached();
 
-    // Not cached, get the data
-    if(!airtableCached) {
-        getAirtableData();
-    }
+    // // Not cached, get the data
+    // if(!airtableCached) {
+    //     getAirtableData();
+    // }
 
-    let airtableData = retrieveCachedData(airtableDataKey);
-    console.log("retreived cache", airtableData);
+    getAirtableData().then(value => {
+        let airtableData = retrieveCachedData(airtableDataKey);
+        console.log("retreived cache", airtableData);
+    });
 
     // TODO: Initialize the plot
 }
