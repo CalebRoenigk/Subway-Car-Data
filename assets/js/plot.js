@@ -142,7 +142,6 @@ function colorPointsByTime() {
 
 // Color the graph by day
 function colorPointsByDate() {
-    console.log('coloring by date');
     // Get the color gradient
     let gradient = getColorGradient('Date');
 
@@ -160,7 +159,6 @@ function colorPointsByDate() {
 
 // Color the graph by number
 function colorPointsByNumber() {
-    console.log('coloring by number');
     // Get the color gradient
     let gradient = getColorGradient('Number');
 
@@ -171,7 +169,6 @@ function colorPointsByNumber() {
         let factor = remapValue(number, dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
 
         let color = gradient.getColorAtPoint(factor).color.getRGBA();
-        console.log(i, factor, number, dataRanges['Number']['min'], dataRanges['Number']['max']);
 
         point.style.backgroundColor = color;
     }
@@ -179,7 +176,6 @@ function colorPointsByNumber() {
 
 // Color the graph by number
 function colorPointsByType() {
-    console.log('coloring by type');
     // Get the color gradient
     let gradient = getColorGradient('Type');
 
