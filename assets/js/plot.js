@@ -125,7 +125,6 @@ function colorPointsByLine() {
 
 // Color the graph by time
 function colorPointsByTime() {
-    console.log('coloring by time')
     // Get the color gradient
     let gradient = getColorGradient('Time');
     
@@ -140,6 +139,58 @@ function colorPointsByTime() {
         point.style.backgroundColor = color;
     }
 }
+
+// Color the graph by day
+function colorPointsByDate() {
+    // Get the color gradient
+    let gradient = getColorGradient('Date');
+
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let time  = data[i]['Ridden Date'];
+        let factor = remapValue(timeToDayIndex(time), dataRanges['Day']['min'], dataRanges['Day']['max'], 0, 1);
+
+        let color = gradient.getColorAtPoint(factor).color.getRGBA();
+
+        point.style.backgroundColor = color;
+    }
+}
+
+// Color the graph by number
+function colorPointsByNumber() {
+    // Get the color gradient
+    let gradient = getColorGradient('Number');
+
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let number  = data[i]['Number'];
+        let factor = remapValue(number, dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
+
+        let color = gradient.getColorAtPoint(factor).color.getRGBA();
+
+        point.style.backgroundColor = color;
+    }
+}
+
+// Color the graph by number
+function colorPointsByType() {
+    // Get the color gradient
+    let gradient = getColorGradient('Type');
+
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let carType  = data[i]['Car Type'];
+        let factor = remapValue(dataRanges['Car Type'].values.findIndex(car => car === carType), 0, dataRanges['Car Type'].values.length, 0, 1);
+
+        let color = gradient.getColorAtPoint(factor).color.getRGBA();
+
+        point.style.backgroundColor = color;
+    }
+}
+
 
 // -------------------------- //
 // ----- Plot Functions ----- //

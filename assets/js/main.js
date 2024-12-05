@@ -527,8 +527,26 @@ function createGradients() {
     });
 
     // Date
-    // TODO: Make Gradient
+    let dateGradient = new Gradient([new GradientStop(new Color('#E52626'), 0), new GradientStop(new Color('#0429CE'), 1)])
+
+    colorGradients.push({
+        'name': 'Date',
+        'gradient': dateGradient
+    });
 
     // Number
-    // TODO: Make Gradient
+    let numberGradient = new Gradient([new GradientStop(new Color('#27156F'), 0), new GradientStop(new Color('#A2C6DB'), 1)])
+
+    colorGradients.push({
+        'name': 'Number',
+        'gradient': numberGradient
+    });
+
+    // Type
+    let typeGradient = new Gradient([new GradientStop(new Color('#EDC148'), 0), new GradientStop(new Color('#7FEC56'), 0.5), new GradientStop(new Color('#68F2FF'), 1)])
+
+    colorGradients.push({
+        'name': 'Type',
+        'gradient': typeGradient
+    });
 }
