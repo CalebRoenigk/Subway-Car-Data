@@ -172,11 +172,11 @@ input[type="radio"]:checked + label > h3 {
     grid-row-gap: 0px;
     grid-template-columns: 1fr;
     grid-template-rows: 3em 1fr;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
     padding: 4em;
     position: relative;
-    width: 100vw;
+    width: 100%;
     grid-area: graph;
 }
 
