@@ -46,24 +46,30 @@ function startup() {
 // ----- Airtable Data ----- //
 // ------------------------- //
 
-// Retrieve the airtable data from local cache or API
-function getAirtableData() {
+// Loads the airtable data from local cache or from API
+function loadAirtableData() {
     // Check if airtable data exists locally (date dependant)
     let airtableCached = airtableDataCached();
-    
+
     // Not cached, get the data
     if(!airtableCached) {
-        fetchAllRecords().then(value => {
-            let data = processAirableData(value);
-            // Store it
-            cacheExpringData(airtableDataKey, data, getFutureTime());
-        });
+        getAirtableData();
     }
 
     let airtableData = retrieveCachedData(airtableDataKey);
-    console.log(airtableData)
+    console.log("retreived cache", airtableData);
 
     // TODO: Initialize the plot
+}
+
+// Retrieve the airtable data from the API and store it to local cache
+async function getAirtableData() {
+    await fetchAllRecords().then(value => {
+        console.log("fetched records", value)
+        let data = processAirableData(value);
+        // Store it
+        cacheExpringData(airtableDataKey, data, getFutureTime());
+    });
 }
 
 // Processes raw airtable record data into infographic data object
