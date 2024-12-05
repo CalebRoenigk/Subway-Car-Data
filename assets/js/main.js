@@ -71,7 +71,7 @@ function loadAirtableData() {
         
         // Default sort and color the data by Line/Line
         graphPointsByLine();
-        
+        colorPointsByLine();
     });
     
     // TODO: Initialize the plot
