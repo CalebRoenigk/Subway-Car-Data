@@ -8,7 +8,6 @@
 // Add ability to display errors from airtable
 // Add ability to save data to local storage and only retrieve from airtable once a day (prevents flooding airtable with a ton of requests)
 // Add ability to color points based on different properties besides sort (color by line, color by type, by time, etc)
-// Rework data intake to simplify format of data from airtable (merge down fields into the record so it is easier to sort the data later)
 // Move point size to a global variable and gap size too, configure this to apply to the CSS as well
 
 // ---------------------------- //
@@ -17,6 +16,7 @@
 
 const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtable Data Cache
 let dataRanges = {};
+let data = [];
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -39,6 +39,9 @@ startup();
 
 // Grabs airtable data and draws the infographic for the first time
 function startup() {
+    // Assign listeners to both filter groups
+    assignListenersToFilters();
+    
     // Retrieve the airtable data from local cache or API
     loadAirtableData();
 }
@@ -58,11 +61,17 @@ function loadAirtableData() {
     // }
 
     getAirtableData().then(value => {
-        let airtableData = retrieveCachedData(airtableDataKey);
-        console.log("retreived cache", airtableData);
+        data = retrieveCachedData(airtableDataKey);
+        console.log("retreived cache", data);
         // Collect ranges for each field type
-        dataRanges = getDataRanges(airtableData);
+        dataRanges = getDataRanges(data);
         console.log("make ranges", dataRanges);
+        // Create the data points
+        generateDataPoints(data);
+        
+        // Default sort and color the data by Line/Line
+        graphPointsByLine();
+        colorPointsByLine();
     });
     
     // TODO: Initialize the plot
@@ -316,18 +325,23 @@ function timeToTimeOfDay(time) {
 // ----- Graph Creation ----- //
 // -------------------------- //
 
-function generateDataPoints() {
-    allRecords.sort((a, b) => a.fields['Number'] - b.fields['Number']);
+// Generates the data points in the graph area
+//  - data: the data records to generate points from
+function generateDataPoints(data) {
+    data.sort((a, b) => a['Number'] - b['Number']);
 
-    for(let i=0; i < allRecords.length; i++) {
-        let dataObject = allRecords[i].fields;
-        let dataID = allRecords[i].id;
+    for(let i=0; i < data.length; i++) {
+        let dataObject = data[i];
+        let dataID = data[i].id;
 
-        generatePoint(dataID, dataObject['Line'], i);
+        generatePoint(dataID, i);
     }
 }
 
-function generatePoint(id, line, i) {
+// Generates a single point
+//  - id: the record id of the data point
+//  - i: the iteration index of the point (used to add transition delay)
+function generatePoint(id, i) {
     let point = document.createElement("div");
 
     // Add content to the div (optional)
@@ -335,9 +349,8 @@ function generatePoint(id, line, i) {
     point.classList.add('data-point');
     point.style.position = 'absolute';
     point.style.transitionDelay = i * 0.005 + 's';
-    point.classList.add(getPointColor(line));
 
-    createTooltip(point, id);
+    // createTooltip(point, id); // TODO: Get this working and looking good
 
     // Add the div to the DOM (e.g., to the body)
     document.getElementById("graph-points-wrapper").appendChild(point);
@@ -386,46 +399,36 @@ function createTooltip(point, id) {
     point.appendChild(tooltipWrapper);
 }
 
-// TODO: Likely refactor this and its use to use the line color function instead
-function getPointColor(line) {
-    switch(line) {
-        case 'A':
-        case 'C':
-        case 'E':
-            return 'blue-line';
-        case 'B':
-        case 'D':
-        case 'F':
-        case 'M':
-            return 'orange-line';
-        case 'G':
-            return 'lime-line';
-        case 'L':
-            return 'light-gray-line';
-        case 'J':
-        case 'Z':
-            return 'brown-line';
-        case 'N':
-        case 'Q':
-        case 'R':
-        case 'W':
-            return 'yellow-line';
-        case '1':
-        case '2':
-        case '3':
-            return 'red-line';
-        case '4':
-        case '5':
-        case '6':
-            return 'green-line';
-        case '7':
-            return 'purple-line';
-        case 'T':
-            return 'turquoise-line';
-        case 'S':
-        default:
-            return 'gray-line';
-    }
+// ----------------------- //
+// ----- Interaction ----- //
+// ----------------------- //
+
+// Assigns listeners to filters
+function assignListenersToFilters() {
+    // Assign change listeners to each sort option
+    // Sort
+    let sortButtons = document.querySelectorAll('input[name="sort"]');
+
+    sortButtons.forEach(sortButton => {
+        sortButton.addEventListener('change', () => {
+            if (sortButton.checked) {
+                // Set the Sort Title to the current sort
+                document.getElementById('title-sort').innerText = sortButton.value;
+            }
+        });
+    });
+
+    // Color
+    let colorButtons = document.querySelectorAll('input[name="color"]');
+
+    colorButtons.forEach(colorButton => {
+        colorButton.addEventListener('change', () => {
+            if (colorButton.checked) {
+                // Set the Sort Title to the current sort
+                document.getElementById('title-color').innerText = colorButton.value;
+            }
+        });
+    });
 }
 
 // END MAIN - TODO: REFACTOR AND REMOVE ANY FUNCTIONALITY THAT ISNT NEEDED IN MAIN TO OTHER JS FILES

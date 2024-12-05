@@ -75,7 +75,7 @@ function graphPointsByDate() {
 // Sorts the graph by Line
 function graphPointsByLine() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Line', 'Line');
+    let plotData = groupDataByField(data, 'Line', 'Line');
     
     // Sort by line
     plotData.plotGroups.sort((a, b) => {
@@ -104,6 +104,23 @@ function graphPointsByLine() {
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
+}
+
+// --------------------------- //
+// ----- Color Functions ----- //
+// --------------------------- //
+
+// Colors the graph by Line
+function colorPointsByLine() {
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let line  = data[i]['Line'];
+        
+        let lineColor = getLineHex(getLineColor(line));
+
+        point.style.backgroundColor = lineColor;
+    }
 }
 
 // -------------------------- //
@@ -139,7 +156,7 @@ function updatePlot(plotData) {
     }
 
     // Update the data labels
-    updateLabels(plotData);
+    // updateLabels(plotData); // TODO: Fix this so it works correctly
 }
 
 // Graphs the data points in a linear fashion
@@ -350,7 +367,7 @@ function groupDataByField(data, field, plotType, preprocessFunction = null) {
     let plotGroups = [];
     
     data.forEach(record => {
-        let fieldValue = record.fields[field];
+        let fieldValue = record[field];
         // Process the key before grouping if there is a preprocessFunction
         fieldValue = preprocessFunction ? preprocessFunction(fieldValue) : fieldValue;
         
@@ -400,4 +417,38 @@ function updateLabels(plotData) {
 
     let axisMax = document.getElementById('axis-maximum');
     axisMax.textContent = plotData.maximum;
+}
+
+// ----------------------------- //
+// ----- Utility Functions ----- //
+// ----------------------------- //
+
+// TODO: Likely refactor this and its use to use the line color function instead
+function getLineHex(color) {
+    switch(color) {
+        default:
+            return null;
+        case 'blue':
+            return '#0039a6';
+        case 'orange':
+            return '#ff6319';
+        case 'lime':
+            return '#6cbe45';
+        case 'light-gray':
+            return '#a7a9ac';
+        case 'brown':
+            return '#996633';
+        case 'yellow':
+            return '#fccc0a';
+        case 'red':
+            return '#ee352e';
+        case 'green':
+            return '#00933c';
+        case 'purple':
+            return '#b933ad';
+        case 'turquoise':
+            return '#00add0';
+        case 'gray':
+            return '#808183';
+    }
 }

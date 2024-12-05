@@ -80,6 +80,17 @@ h4 {
     position: absolute;
     top: 0px;
     left: 0px;
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+                "title"
+                "filters"
+                "key"
+                "graph";
+    width: 100vw;
+    height: 100vh;
+    row-gap: 0.5em;
 }
 
 /* ----------------- */
@@ -93,6 +104,8 @@ h4 {
     flex-wrap: nowrap;
     justify-content: center;
     gap: 8px;
+    text-transform: capitalize;
+    grid-area: title;
 }
 
 /* ------------------- */
@@ -106,6 +119,7 @@ h4 {
     justify-content: center;
     align-items: center;
     gap: 48px;
+    grid-area: filters;
 }
 
 .filter-group {
@@ -147,6 +161,19 @@ input[type="radio"]:checked + label > h3 {
     color: #eeeeee;
 }
 
+/* ----------------- */
+/* ----- Graph ----- */
+/* ----------------- */
+
+#graph-wrapper {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    padding: 4em;
+    position: relative;
+    width: 100%;
+    grid-area: graph;
+}
 
 #graph-axis-wrapper {
     color: gray;
@@ -173,20 +200,6 @@ input[type="radio"]:checked + label > h3 {
     position: absolute;
     top: 0px;
     width: 100%;
-}
-
-#graph-wrapper {
-    box-sizing: border-box;
-    display: grid;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    grid-template-columns: 1fr;
-    grid-template-rows: 3em 1fr;
-    height: 100vh;
-    overflow: hidden;
-    padding: 4em;
-    position: relative;
-    width: 100vw;
 }
 
 #graph-area {
