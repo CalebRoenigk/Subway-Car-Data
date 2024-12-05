@@ -66,7 +66,7 @@ function loadAirtableData() {
 async function getAirtableData() {
     await fetchAllRecords().then(value => {
         console.log("fetched records", value)
-        let data = processAirableData(value);
+        let data = processAirtableData(value);
         // Store it
         cacheExpringData(airtableDataKey, data, getFutureTime());
     });
@@ -74,7 +74,7 @@ async function getAirtableData() {
 
 // Processes raw airtable record data into infographic data object
 //  - recordData: Raw record data from airtable
-function processAirableData(recordData) {
+function processAirtableData(recordData) {
     console.log(recordData);
     let data = [];
     recordData.forEach(record => {
