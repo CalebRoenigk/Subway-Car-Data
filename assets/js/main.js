@@ -50,8 +50,7 @@ function startup() {
 function getAirtableData() {
     // Check if airtable data exists locally (date dependant)
     let airtableCached = airtableDataCached();
-
-    let airtableData = {};
+    
     // Not cached, get the data
     if(!airtableCached) {
         fetchAllRecords().then(value => {
@@ -61,14 +60,27 @@ function getAirtableData() {
         });
     }
 
-    airtableData = retrieveCachedData(airtableDataKey);
+    let airtableData = retrieveCachedData(airtableDataKey);
+    console.log(airtableData)
 
     // TODO: Initialize the plot
 }
 
 // Processes raw airtable record data into infographic data object
+//  - recordData: Raw record data from airtable
 function processAirableData(recordData) {
     console.log(recordData);
+    let data = [];
+    recordData.forEach(record => {
+        let recordObject = {
+            id: record.id,
+            ...record.fields
+        };
+        
+        data.push(recordObject);
+    });
+    
+    return data;
 }
 
 // Returns a boolean if there is cached airtable data
@@ -114,6 +126,10 @@ function cacheExpringData(key, data, expireDate) {
 // Returns data from local storage given a key
 //	- key: the key for the data
 function retrieveCachedData(key) {
+    if(localStorage.getItem(key) === null) {
+        return null;
+    }
+    
     return JSON.parse(localStorage.getItem(key)).data;
 }
 
