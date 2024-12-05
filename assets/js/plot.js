@@ -167,8 +167,26 @@ function colorPointsByNumber() {
     // Iterate over the data
     for(let i=0; i < data.length; i++) {
         let point = document.getElementById(data[i].id);
-        let time  = data[i]['Car Number'];
-        let factor = remapValue(timeToDayIndex(time), dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
+        let number  = data[i]['Car Number'];
+        let factor = remapValue(number, dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
+
+        let color = gradient.getColorAtPoint(factor).color.getRGBA();
+
+        point.style.backgroundColor = color;
+    }
+}
+
+// Color the graph by number
+function colorPointsByType() {
+    console.log('coloring by type');
+    // Get the color gradient
+    let gradient = getColorGradient('Type');
+
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let carType  = data[i]['Car Type'];
+        let factor = remapValue(dataRanges['Car Type'].values.findIndex(car => car === carType), 0, dataRanges['Car Type'].values.length, 0, 1);
 
         let color = gradient.getColorAtPoint(factor).color.getRGBA();
 
