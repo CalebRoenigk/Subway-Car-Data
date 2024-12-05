@@ -167,7 +167,7 @@ function colorPointsByNumber() {
     // Iterate over the data
     for(let i=0; i < data.length; i++) {
         let point = document.getElementById(data[i].id);
-        let number  = data[i]['Car Number'];
+        let number  = data[i]['Number'];
         let factor = remapValue(number, dataRanges['Number']['min'], dataRanges['Number']['max'], 0, 1);
 
         let color = gradient.getColorAtPoint(factor).color.getRGBA();
