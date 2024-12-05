@@ -8,7 +8,6 @@
 // Add ability to display errors from airtable
 // Add ability to save data to local storage and only retrieve from airtable once a day (prevents flooding airtable with a ton of requests)
 // Add ability to color points based on different properties besides sort (color by line, color by type, by time, etc)
-// Rework data intake to simplify format of data from airtable (merge down fields into the record so it is easier to sort the data later)
 // Move point size to a global variable and gap size too, configure this to apply to the CSS as well
 
 // ---------------------------- //
