@@ -282,13 +282,13 @@ function getDataRanges(data) {
         }
 
         // Line
-        if(dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])) != undefined) {
+        if(dataRanges['Lines'].values.find(line => line.color === getLineColor(record['Line'])) != undefined) {
             // Line color exists
-            if(dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])).values.find(value => value === record['Line']) === undefined) {
-                dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])).values.push(record['Line']);
+            if(dataRanges['Lines'].values.find(line => line.color === getLineColor(record['Line'])).values.find(value => value === record['Line']) === undefined) {
+                dataRanges['Lines'].values.find(line => line.color === getLineColor(record['Line'])).values.push(record['Line']);
             }
         } else {
-            dataRanges['Lines'].push({
+            dataRanges['Lines'].values.push({
                 'color': getLineColor(record['Line']),
                 'values': [record['Line']]
             });
