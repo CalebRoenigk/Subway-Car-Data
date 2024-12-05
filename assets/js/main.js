@@ -16,6 +16,7 @@
 // ---------------------------- //
 
 const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtable Data Cache
+let dataRanges = {};
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -59,8 +60,11 @@ function loadAirtableData() {
     getAirtableData().then(value => {
         let airtableData = retrieveCachedData(airtableDataKey);
         console.log("retreived cache", airtableData);
+        // Collect ranges for each field type
+        dataRanges = getDataRanges(airtableData);
+        console.log("make ranges", dataRanges);
     });
-
+    
     // TODO: Initialize the plot
 }
 
@@ -233,6 +237,148 @@ function createTooltip(point, id) {
     point.appendChild(tooltipWrapper);
 }
 
+// Returns ranges of the entire data set passed in
+// Data ranges returned are: Car Number, Car Type, Time, Day, and Line
+//  - data: the data to get a range from
+function getDataRanges(data) {
+    let dataRanges = {
+        'Number': {
+            'min': -1,
+            'max': -1
+        },
+        'Car Type': {
+            'values': []
+        },
+        'Lines': {
+            'values': []
+        },
+        'Time': {
+            'min': -1,
+            'max': -1
+        },
+        'Day': {
+            'min': -1,
+            'max': -1
+        }
+    }
+
+    for(let i=0; i < data.length; i++) {
+        let record = data[i];
+
+        // Min/Max Number
+        if(i === 0) {
+            dataRanges['Number']['min'] = record['Number'];
+            dataRanges['Number']['max'] = record['Number'];
+        } else {
+            // Min
+            dataRanges['Number']['min'] = Math.min(dataRanges['Number']['min'], record['Number']);
+            // Max
+            dataRanges['Number']['max'] = Math.min(dataRanges['Number']['max'], record['Number']);
+        }
+
+        // Car Type
+        if(dataRanges['Car Type']['values'].find(value => value === record['Car Type']) === undefined) {
+            dataRanges['Car Type']['values'].push(record['Car Type']);
+        }
+
+        // Line
+        if(dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])) != undefined) {
+            // Line color exists
+            if(dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])).values.find(value => value === record['Line']) === undefined) {
+                dataRanges['Lines'].find(line => line.color === getLineColor(record['Line'])).values.push(record['Line']);
+            }
+        } else {
+            dataRanges['Lines'].push({
+                'color': getLineColor(record['Line']),
+                'values': [record['Line']]
+            });
+        }
+
+        // Time
+        if(i === 0) {
+            dataRanges['Time']['min'] = timeToTimeOfDay(record['Ridden Date']);
+            dataRanges['Time']['max'] = timeToTimeOfDay(record['Ridden Date']);
+        } else {
+            // Min
+            dataRanges['Time']['min'] = Math.min(dataRanges['Time']['min'], timeToTimeOfDay(record['Ridden Date']));
+            // Max
+            dataRanges['Time']['max'] = Math.min(dataRanges['Time']['max'], timeToTimeOfDay(record['Ridden Date']));
+        }
+
+        // Day
+        if(i === 0) {
+            dataRanges['Day']['min'] = timeToMonthIndex(record['Ridden Date']);
+            dataRanges['Day']['max'] = timeToMonthIndex(record['Ridden Date']);
+        } else {
+            // Min
+            dataRanges['Day']['min'] = Math.min(dataRanges['Day']['min'], timeToMonthIndex(record['Ridden Date']));
+            // Max
+            dataRanges['Day']['max'] = Math.min(dataRanges['Day']['max'], timeToMonthIndex(record['Ridden Date']));
+        }
+    }
+
+    return dataRanges;
+}
+
+// Returns the line color name given an input line
+//	- line: The input line
+function getLineColor(line) {
+    switch(line)
+    {
+        default:
+            return null;
+        case 'A':
+        case 'C':
+        case 'E':
+            return 'blue';
+        case 'B':
+        case 'D':
+        case 'F':
+        case 'M':
+            return 'orange';
+        case 'G':
+            return 'lime';
+        case 'L':
+            return 'light-gray';
+        case 'J':
+        case 'Z':
+            return 'brown';
+        case 'N':
+        case 'Q':
+        case 'R':
+        case 'W':
+            return 'yellow';
+        case '1':
+        case '2':
+        case '3':
+            return 'red';
+        case '4':
+        case '5':
+        case '6':
+            return 'green';
+        case '7':
+            return 'purple';
+        case 'T':
+            return 'turquoise';
+        case 'S':
+            return 'gray';
+    }
+}
+
+// Returns a UTC time value as a month index
+//	- time: a UTC time value
+function timeToMonthIndex(time) {
+    return new Date(time).getMonth();
+}
+
+// Returns a UTC time value as a time in the day (in minutes)(from 12AM to 11:59PM)
+//	- time: a UTC time value
+function timeToTimeOfDay(time) {
+    let date = new Date(time);
+    return (date.getHours() * 60) + date.getMinutes();
+}
+
+// TODO: Likely refactor this and its use to use the line color function instead
 function getPointColor(line) {
     switch(line) {
         case 'A':
