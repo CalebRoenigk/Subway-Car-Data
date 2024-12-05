@@ -471,23 +471,6 @@ function getLineHex(color) {
     }
 }
 
-// Creates the gradients for coloring points
-function createGradients() {
-    // Time
-    let timeGradient = new Gradient([new GradientStop(new Color('#FFFD50'), 0), new GradientStop(new Color('#DBDDE2'), 0.38),new GradientStop(new Color('#0363D2'), 0.73), new GradientStop(new Color('#030434'), 1)])
-        
-    colorGradients.push({
-        'name': 'Time',
-        'gradient': timeGradient
-    });
-    
-    // Date
-    // TODO: Make Gradient
-    
-    // Number
-    // TODO: Make Gradient
-}
-
 // Returns a color gradient based on name
 //  - name: the name of the gradient
 function getColorGradient(name) {
