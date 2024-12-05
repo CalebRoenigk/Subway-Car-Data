@@ -367,7 +367,7 @@ function groupDataByField(data, field, plotType, preprocessFunction = null) {
     let plotGroups = [];
     
     data.forEach(record => {
-        let fieldValue = record.fields[field];
+        let fieldValue = record[field];
         // Process the key before grouping if there is a preprocessFunction
         fieldValue = preprocessFunction ? preprocessFunction(fieldValue) : fieldValue;
         
