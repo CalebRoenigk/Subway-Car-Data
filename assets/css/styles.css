@@ -81,7 +81,7 @@ h4 {
     top: 0px;
     left: 0px;
     display: grid;
-    grid-template-rows: 2em 2em 2em auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr;
     grid-template-areas: 
                 "title"
