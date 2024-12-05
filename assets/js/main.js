@@ -156,17 +156,14 @@ async function fetchAllRecords() {
                 // Fetch the next page
                 fetchNextPage();
             });
-        // TODO: Process and store records
-        Promise.resolve(allRecords);
         // generateDataPoints(); TODO: MOVE THESE ELSEWHERE
         // graphPointsByLine();
     } catch (error) {
         console.error('Error fetching records:', error);
     }
+    
+    return allRecords;
 }
-
-// Run the function
-fetchAllRecords();
 
 function generateDataPoints() {
     allRecords.sort((a, b) => a.fields['Number'] - b.fields['Number']);
