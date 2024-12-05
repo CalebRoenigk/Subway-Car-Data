@@ -167,76 +167,6 @@ async function fetchAllRecords() {
     return allRecords;
 }
 
-function generateDataPoints() {
-    allRecords.sort((a, b) => a.fields['Number'] - b.fields['Number']);
-
-    for(let i=0; i < allRecords.length; i++) {
-        let dataObject = allRecords[i].fields;
-        let dataID = allRecords[i].id;
-
-        generatePoint(dataID, dataObject['Line'], i);
-    }
-}
-
-function generatePoint(id, line, i) {
-    let point = document.createElement("div");
-
-    // Add content to the div (optional)
-    point.id = id;
-    point.classList.add('data-point');
-    point.style.position = 'absolute';
-    point.style.transitionDelay = i * 0.005 + 's';
-    point.classList.add(getPointColor(line));
-
-    createTooltip(point, id);
-
-    // Add the div to the DOM (e.g., to the body)
-    document.getElementById("graph-points-wrapper").appendChild(point);
-}
-
-function createTooltip(point, id) {
-    let tooltipWrapper = document.createElement("div");
-    tooltipWrapper.classList.add('tool-tip-wrapper');
-
-    let tooltip = document.createElement("div");
-
-    let pointData = allRecords.find((data) => data.id === id);
-
-    let number = pointData.fields['Number'];
-    let type = pointData.fields['Car Type'];
-    let line = pointData.fields['Line'];
-
-    let numberTitle = document.createElement("h3");
-    numberTitle.innerHTML = number;
-
-    let typeTitle = document.createElement("h4");
-    typeTitle.innerHTML = type;
-    let lineTitle = document.createElement("h4");
-    lineTitle.innerHTML = line;
-
-    let typeLineGroup = document.createElement("div");
-    typeLineGroup.appendChild(typeTitle);
-    typeLineGroup.appendChild(lineTitle);
-
-    typeLineGroup.classList.add('card-group');
-
-    tooltip.appendChild(numberTitle);
-    tooltip.appendChild(typeLineGroup);
-
-    // Add content to the div (optional)
-    tooltip.classList.add('tool-tip');
-
-    let tooltipPointOutline = document.createElement("div");
-    tooltipPointOutline.classList.add('tool-tip-point-outline');
-
-
-    // Add the div to the DOM (e.g., to the body)
-    tooltipWrapper.appendChild(tooltip);
-    tooltipWrapper.appendChild(tooltipPointOutline);
-
-    point.appendChild(tooltipWrapper);
-}
-
 // Returns ranges of the entire data set passed in
 // Data ranges returned are: Car Number, Car Type, Time, Day, and Line
 //  - data: the data to get a range from
@@ -380,6 +310,80 @@ function timeToDayIndex(time) {
 function timeToTimeOfDay(time) {
     let date = new Date(time);
     return (date.getHours() * 60) + date.getMinutes();
+}
+
+// -------------------------- //
+// ----- Graph Creation ----- //
+// -------------------------- //
+
+function generateDataPoints() {
+    allRecords.sort((a, b) => a.fields['Number'] - b.fields['Number']);
+
+    for(let i=0; i < allRecords.length; i++) {
+        let dataObject = allRecords[i].fields;
+        let dataID = allRecords[i].id;
+
+        generatePoint(dataID, dataObject['Line'], i);
+    }
+}
+
+function generatePoint(id, line, i) {
+    let point = document.createElement("div");
+
+    // Add content to the div (optional)
+    point.id = id;
+    point.classList.add('data-point');
+    point.style.position = 'absolute';
+    point.style.transitionDelay = i * 0.005 + 's';
+    point.classList.add(getPointColor(line));
+
+    createTooltip(point, id);
+
+    // Add the div to the DOM (e.g., to the body)
+    document.getElementById("graph-points-wrapper").appendChild(point);
+}
+
+function createTooltip(point, id) {
+    let tooltipWrapper = document.createElement("div");
+    tooltipWrapper.classList.add('tool-tip-wrapper');
+
+    let tooltip = document.createElement("div");
+
+    let pointData = allRecords.find((data) => data.id === id);
+
+    let number = pointData.fields['Number'];
+    let type = pointData.fields['Car Type'];
+    let line = pointData.fields['Line'];
+
+    let numberTitle = document.createElement("h3");
+    numberTitle.innerHTML = number;
+
+    let typeTitle = document.createElement("h4");
+    typeTitle.innerHTML = type;
+    let lineTitle = document.createElement("h4");
+    lineTitle.innerHTML = line;
+
+    let typeLineGroup = document.createElement("div");
+    typeLineGroup.appendChild(typeTitle);
+    typeLineGroup.appendChild(lineTitle);
+
+    typeLineGroup.classList.add('card-group');
+
+    tooltip.appendChild(numberTitle);
+    tooltip.appendChild(typeLineGroup);
+
+    // Add content to the div (optional)
+    tooltip.classList.add('tool-tip');
+
+    let tooltipPointOutline = document.createElement("div");
+    tooltipPointOutline.classList.add('tool-tip-point-outline');
+
+
+    // Add the div to the DOM (e.g., to the body)
+    tooltipWrapper.appendChild(tooltip);
+    tooltipWrapper.appendChild(tooltipPointOutline);
+
+    point.appendChild(tooltipWrapper);
 }
 
 // TODO: Likely refactor this and its use to use the line color function instead
