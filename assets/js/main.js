@@ -63,6 +63,8 @@ function loadAirtableData() {
         // Collect ranges for each field type
         dataRanges = getDataRanges(airtableData);
         console.log("make ranges", dataRanges);
+        // Create the data points
+        generateDataPoints(); // TODO: Fix this so that it uses the new records as data
     });
     
     // TODO: Initialize the plot
