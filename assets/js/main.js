@@ -307,13 +307,13 @@ function getDataRanges(data) {
 
         // Day
         if(i === 0) {
-            dataRanges['Day']['min'] = timeToMonthIndex(record['Ridden Date']);
-            dataRanges['Day']['max'] = timeToMonthIndex(record['Ridden Date']);
+            dataRanges['Day']['min'] = timeToDayIndex(record['Ridden Date']);
+            dataRanges['Day']['max'] = timeToDayIndex(record['Ridden Date']);
         } else {
             // Min
-            dataRanges['Day']['min'] = Math.min(dataRanges['Day']['min'], timeToMonthIndex(record['Ridden Date']));
+            dataRanges['Day']['min'] = Math.min(dataRanges['Day']['min'], timeToDayIndex(record['Ridden Date']));
             // Max
-            dataRanges['Day']['max'] = Math.max(dataRanges['Day']['max'], timeToMonthIndex(record['Ridden Date']));
+            dataRanges['Day']['max'] = Math.max(dataRanges['Day']['max'], timeToDayIndex(record['Ridden Date']));
         }
     }
 
@@ -365,10 +365,14 @@ function getLineColor(line) {
     }
 }
 
-// Returns a UTC time value as a month index
+// Returns a UTC time value as a day index in the year
 //	- time: a UTC time value
-function timeToMonthIndex(time) {
-    return new Date(time).getMonth();
+function timeToDayIndex(time) {
+    let date = new Date(time);
+    let yearStart = new Date(date.getFullYear(), 0, 0);
+    let timeDifference = date - yearStart;
+    let oneDay = 1000 * 60 * 60 * 24;
+    return Math.floor(timeDifference / oneDay);
 }
 
 // Returns a UTC time value as a time in the day (in minutes)(from 12AM to 11:59PM)
