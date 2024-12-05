@@ -52,22 +52,23 @@ function getAirtableData() {
     let airtableCached = airtableDataCached();
 
     let airtableData = {};
-    if(airtableCached) {
-        // If it is and isn't old, use this data
-        airtableData = retrieveCachedData(airtableDataKey);
-    } else {
-        // If airtable data is not present, get it
-        let airtableRecords = fetchAllRecords();
-        
-        console.log(airtableRecords);
-        airtableData = {};// TODO: CODE HERE
-        // Process the airtable return
-        
-        // Store it
-        cacheExpringData(airtableDataKey, data, getFutureTime());
+    // Not cached, get the data
+    if(!airtableCached) {
+        fetchAllRecords().then(value => {
+            let data = processAirableData(value);
+            // Store it
+            cacheExpringData(airtableDataKey, data, getFutureTime());
+        });
     }
 
+    airtableData = retrieveCachedData(airtableDataKey);
+
     // TODO: Initialize the plot
+}
+
+// Processes raw airtable record data into infographic data object
+function processAirableData(recordData) {
+    console.log(recordData);
 }
 
 // Returns a boolean if there is cached airtable data
@@ -131,8 +132,8 @@ async function fetchAllRecords() {
                 // Fetch the next page
                 fetchNextPage();
             });
-        console.log("Test", allRecords);
-        return allRecords;
+        // TODO: Process and store records
+        Promise.resolve(allRecords);
         // generateDataPoints(); TODO: MOVE THESE ELSEWHERE
         // graphPointsByLine();
     } catch (error) {
