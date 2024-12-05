@@ -40,6 +40,9 @@ startup();
 
 // Grabs airtable data and draws the infographic for the first time
 function startup() {
+    // Assign listeners to both filter groups
+    assignListenersToFilters();
+    
     // Retrieve the airtable data from local cache or API
     loadAirtableData();
 }
@@ -65,7 +68,10 @@ function loadAirtableData() {
         dataRanges = getDataRanges(data);
         console.log("make ranges", dataRanges);
         // Create the data points
-        generateDataPoints(data); // TODO: Fix this so that it uses the new records as data
+        generateDataPoints(data);
+        
+        // Default sort and color the data by Line/Line
+        // TODO: CODE HERE
     });
     
     // TODO: Initialize the plot
@@ -434,6 +440,38 @@ function getPointColor(line) {
         default:
             return 'gray-line';
     }
+}
+
+// ----------------------- //
+// ----- Interaction ----- //
+// ----------------------- //
+
+// Assigns listeners to filters
+function assignListenersToFilters() {
+    // Assign change listeners to each sort option
+    // Sort
+    let sortButtons = document.querySelectorAll('input[name="sort"]');
+
+    sortButtons.forEach(sortButton => {
+        sortButton.addEventListener('change', () => {
+            if (sortButton.checked) {
+                // Set the Sort Title to the current sort
+                document.getElementById('title-sort').innerText = sortButton.value;
+            }
+        });
+    });
+
+    // Color
+    let colorButtons = document.querySelectorAll('input[name="color"]');
+
+    colorButtons.forEach(colorButton => {
+        colorButton.addEventListener('change', () => {
+            if (colorButton.checked) {
+                // Set the Sort Title to the current sort
+                document.getElementById('title-color').innerText = colorButton.value;
+            }
+        });
+    });
 }
 
 // END MAIN - TODO: REFACTOR AND REMOVE ANY FUNCTIONALITY THAT ISNT NEEDED IN MAIN TO OTHER JS FILES
