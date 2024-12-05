@@ -4,6 +4,7 @@
 
 const pointSize = 10;
 const additionalGap = 2;
+let colorGradients = [];
 
 // -------------------------- //
 // ----- Sort Functions ----- //
@@ -120,6 +121,23 @@ function colorPointsByLine() {
         let lineColor = getLineHex(getLineColor(line));
 
         point.style.backgroundColor = lineColor;
+    }
+}
+
+// Color the graph by time
+function colorPointsByTime() {
+    // Get the color gradient
+    let gradient = getColorGradient('Time');
+    
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let time  = data[i]['Ridden Date'];
+        let factor = remapValue(timeToTimeOfDay(time), dataRanges['Time']['min'], dataRanges['Time']['max'], 0, 1);
+
+        let color = gradient.getColorAtPoint(factor);
+
+        point.style.backgroundColor = color;
     }
 }
 
@@ -451,4 +469,27 @@ function getLineHex(color) {
         case 'gray':
             return '#808183';
     }
+}
+
+// Creates the gradients for coloring points
+function createGradients() {
+    // Time
+    let timeGradient = new Gradient([new GradientStop(new Color('#FFFD50'), 0), new GradientStop(new Color('#DBDDE2'), 0.38),new GradientStop(new Color('#0363D2'), 0.73), new GradientStop(new Color('#030434'), 1)])
+        
+    colorGradients.push({
+        'name': 'Time',
+        'gradient': timeGradient
+    });
+    
+    // Date
+    // TODO: Make Gradient
+    
+    // Number
+    // TODO: Make Gradient
+}
+
+// Returns a color gradient based on name
+//  - name: the name of the gradient
+function getColorGradient(name) {
+    return colorGradients.find(gradientObj => gradientObj.name === name).gradient;
 }

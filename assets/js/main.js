@@ -42,6 +42,9 @@ function startup() {
     // Assign listeners to both filter groups
     assignListenersToFilters();
     
+    // Create the gradients
+    createGradients();
+    
     // Retrieve the airtable data from local cache or API
     loadAirtableData();
 }
