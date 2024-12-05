@@ -93,6 +93,7 @@ h4 {
     flex-wrap: nowrap;
     justify-content: center;
     gap: 8px;
+    text-transform: capitalize;
 }
 
 /* ------------------- */
