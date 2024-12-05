@@ -17,6 +17,7 @@
 
 const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtable Data Cache
 let dataRanges = {};
+let data = [];
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -58,13 +59,13 @@ function loadAirtableData() {
     // }
 
     getAirtableData().then(value => {
-        let airtableData = retrieveCachedData(airtableDataKey);
-        console.log("retreived cache", airtableData);
+        data = retrieveCachedData(airtableDataKey);
+        console.log("retreived cache", data);
         // Collect ranges for each field type
-        dataRanges = getDataRanges(airtableData);
+        dataRanges = getDataRanges(data);
         console.log("make ranges", dataRanges);
         // Create the data points
-        generateDataPoints(); // TODO: Fix this so that it uses the new records as data
+        generateDataPoints(data); // TODO: Fix this so that it uses the new records as data
     });
     
     // TODO: Initialize the plot
@@ -318,18 +319,23 @@ function timeToTimeOfDay(time) {
 // ----- Graph Creation ----- //
 // -------------------------- //
 
-function generateDataPoints() {
-    allRecords.sort((a, b) => a.fields['Number'] - b.fields['Number']);
+// Generates the data points in the graph area
+//  - data: the data records to generate points from
+function generateDataPoints(data) {
+    data.sort((a, b) => a['Number'] - b['Number']);
 
-    for(let i=0; i < allRecords.length; i++) {
-        let dataObject = allRecords[i].fields;
-        let dataID = allRecords[i].id;
+    for(let i=0; i < data.length; i++) {
+        let dataObject = data[i];
+        let dataID = data[i].id;
 
-        generatePoint(dataID, dataObject['Line'], i);
+        generatePoint(dataID, i);
     }
 }
 
-function generatePoint(id, line, i) {
+// Generates a single point
+//  - id: the record id of the data point
+//  - i: the iteration index of the point (used to add transition delay)
+function generatePoint(id, i) {
     let point = document.createElement("div");
 
     // Add content to the div (optional)
@@ -339,7 +345,7 @@ function generatePoint(id, line, i) {
     point.style.transitionDelay = i * 0.005 + 's';
     point.classList.add(getPointColor(line));
 
-    createTooltip(point, id);
+    // createTooltip(point, id); // TODO: Get this working and looking good
 
     // Add the div to the DOM (e.g., to the body)
     document.getElementById("graph-points-wrapper").appendChild(point);
