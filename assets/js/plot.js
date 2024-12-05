@@ -125,6 +125,7 @@ function colorPointsByLine() {
 
 // Color the graph by time
 function colorPointsByTime() {
+    console.log('coloring by time')
     // Get the color gradient
     let gradient = getColorGradient('Time');
     
@@ -134,7 +135,7 @@ function colorPointsByTime() {
         let time  = data[i]['Ridden Date'];
         let factor = remapValue(timeToTimeOfDay(time), dataRanges['Time']['min'], dataRanges['Time']['max'], 0, 1);
 
-        let color = gradient.getColorAtPoint(factor);
+        let color = gradient.getColorAtPoint(factor).getRGBA();
 
         point.style.backgroundColor = color;
     }
