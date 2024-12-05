@@ -18,6 +18,8 @@ const airtableDataKey = 'airtableData'; // The Local Storage Key for the Airtabl
 let dataRanges = {};
 let data = [];
 let colorGradients = [];
+let sortFilter = 'line';
+let colorFilter = 'line';
 
 const airtableToken = "patRdIU76X8UpDiKK.e9bad724a70bf0e4b8fcb9e7d26d89e86c759a4667becad08e07d56406a14562";
 const table = "Subway Car Ridership";
@@ -415,8 +417,34 @@ function assignListenersToFilters() {
     sortButtons.forEach(sortButton => {
         sortButton.addEventListener('change', () => {
             if (sortButton.checked) {
-                // Set the Sort Title to the current sort
-                document.getElementById('title-sort').innerText = sortButton.value;
+                let titleGroup = document.getElementById('sort-title-group');
+                let position = '0%';
+                let labelOrder = ['number', 'type', 'date','time','line'];
+                switch(sortButton.value) {
+                    default:
+                    case 'number':
+                        position = '0%';
+                        break;
+                    case 'type':
+                        position = '-20%';
+                        break;
+                    case 'date':
+                        position = '-40%';
+                        break;
+                    case 'time':
+                        position = '-60%';
+                        break;
+                    case 'line':
+                        position = '-80%';
+                        break;
+                }
+
+                let transitionUnit = 0.175;
+                let transitionDuration = Math.abs(labelOrder.findIndex(label => label === sortFilter) - labelOrder.findIndex(label => label === sortButton.value)) * transitionUnit;
+
+                titleGroup.style.transform = `translateY(${position})`;
+                titleGroup.style.transitionDuration = transitionDuration + 's';
+                sortFilter = sortButton.value;
             }
         });
     });
@@ -427,8 +455,34 @@ function assignListenersToFilters() {
     colorButtons.forEach(colorButton => {
         colorButton.addEventListener('change', () => {
             if (colorButton.checked) {
-                // Set the Sort Title to the current sort
-                document.getElementById('title-color').innerText = colorButton.value;
+                let titleGroup = document.getElementById('color-title-group');
+                let position = '0%';
+                let labelOrder = ['number', 'type', 'date','time','line'];
+                switch(colorButton.value) {
+                    default:
+                    case 'number':
+                        position = '0%';
+                        break;
+                    case 'type':
+                        position = '-20%';
+                        break;
+                    case 'date':
+                        position = '-40%';
+                        break;
+                    case 'time':
+                        position = '-60%';
+                        break;
+                    case 'line':
+                        position = '-80%';
+                        break;
+                }
+                
+                let transitionUnit = 0.175;
+                let transitionDuration = Math.abs(labelOrder.findIndex(label => label === colorFilter) - labelOrder.findIndex(label => label === colorButton.value)) * transitionUnit;
+                
+                titleGroup.style.transform = `translateY(${position})`;
+                titleGroup.style.transitionDuration = transitionDuration + 's';
+                colorFilter = colorButton.value;
             }
         });
     });

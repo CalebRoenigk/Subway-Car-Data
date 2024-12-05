@@ -16,6 +16,7 @@ h1 {
     font-size: 2em;
     font-style: normal;
     font-weight: 600;
+    margin: 0px;
 }
 
 h3 {
@@ -103,9 +104,39 @@ h4 {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    align-items: center;
     gap: 8px;
     text-transform: capitalize;
     grid-area: title;
+}
+
+.title-mask-group {
+    width: auto;
+    height: 3em;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin: 0px;
+    transition-timing-function: ease;
+}
+
+.title-group > h1, #title > h1 {
+    margin-bottom: 0.25em;
+}
+
+#sort-title-group {
+    align-items: flex-end;
+}
+
+#color-title-group {
+    align-items: flex-start;
 }
 
 /* ------------------- */
