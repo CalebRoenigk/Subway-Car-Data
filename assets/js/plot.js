@@ -106,6 +106,23 @@ function graphPointsByLine() {
     updatePlot(plotData);
 }
 
+// --------------------------- //
+// ----- Color Functions ----- //
+// --------------------------- //
+
+// Colors the graph by Line
+function colorPointsByLine() {
+    // Iterate over the data
+    for(let i=0; i < data.length; i++) {
+        let point = document.getElementById(data[i].id);
+        let line  = data[i]['Line'];
+        
+        let lineColor = getLineHex(getLineColor(line));
+
+        point.style.backgroundColor = lineColor;
+    }
+}
+
 // -------------------------- //
 // ----- Plot Functions ----- //
 // -------------------------- //
@@ -400,4 +417,38 @@ function updateLabels(plotData) {
 
     let axisMax = document.getElementById('axis-maximum');
     axisMax.textContent = plotData.maximum;
+}
+
+// ----------------------------- //
+// ----- Utility Functions ----- //
+// ----------------------------- //
+
+// TODO: Likely refactor this and its use to use the line color function instead
+function getLineHex(color) {
+    switch(color) {
+        default:
+            return null;
+        case 'blue':
+            return '#0039a6';
+        case 'orange':
+            return '#ff6319';
+        case 'lime':
+            return '#6cbe45';
+        case 'light-gray':
+            return '#a7a9ac';
+        case 'brown':
+            return '#996633';
+        case 'yellow':
+            return '#fccc0a';
+        case 'red':
+            return '#ee352e';
+        case 'green':
+            return '#00933c';
+        case 'purple':
+            return '#b933ad';
+        case 'turquoise':
+            return '#00add0';
+        case 'gray':
+            return '#808183';
+    }
 }

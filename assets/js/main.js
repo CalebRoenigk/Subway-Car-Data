@@ -71,7 +71,8 @@ function loadAirtableData() {
         generateDataPoints(data);
         
         // Default sort and color the data by Line/Line
-        // TODO: CODE HERE
+        graphPointsByLine();
+        
     });
     
     // TODO: Initialize the plot
@@ -349,7 +350,6 @@ function generatePoint(id, i) {
     point.classList.add('data-point');
     point.style.position = 'absolute';
     point.style.transitionDelay = i * 0.005 + 's';
-    // point.classList.add(getPointColor(line));
 
     // createTooltip(point, id); // TODO: Get this working and looking good
 
@@ -398,48 +398,6 @@ function createTooltip(point, id) {
     tooltipWrapper.appendChild(tooltipPointOutline);
 
     point.appendChild(tooltipWrapper);
-}
-
-// TODO: Likely refactor this and its use to use the line color function instead
-function getPointColor(line) {
-    switch(line) {
-        case 'A':
-        case 'C':
-        case 'E':
-            return 'blue-line';
-        case 'B':
-        case 'D':
-        case 'F':
-        case 'M':
-            return 'orange-line';
-        case 'G':
-            return 'lime-line';
-        case 'L':
-            return 'light-gray-line';
-        case 'J':
-        case 'Z':
-            return 'brown-line';
-        case 'N':
-        case 'Q':
-        case 'R':
-        case 'W':
-            return 'yellow-line';
-        case '1':
-        case '2':
-        case '3':
-            return 'red-line';
-        case '4':
-        case '5':
-        case '6':
-            return 'green-line';
-        case '7':
-            return 'purple-line';
-        case 'T':
-            return 'turquoise-line';
-        case 'S':
-        default:
-            return 'gray-line';
-    }
 }
 
 // ----------------------- //
