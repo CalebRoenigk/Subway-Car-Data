@@ -1,0 +1,21 @@
+<svg width="144" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .animated-stroke {
+            animation-name: loading;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes loading {
+            from {stroke-dashoffset: 160;}
+            to {stroke-dashoffset: -160;}
+        }
+    </style>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 16a8.003 8.003 0 0 0 7.418-5h49.164a8.003 8.003 0 0 0 14.837 0h49.163A8.002 8.002 0 0 0 144 8a8 8 0 0 0-15.418-3H79.419a8.003 8.003 0 0 0-14.837 0H15.419A8.003 8.003 0 0 0 0 8a8 8 0 0 0 8 8Zm0-4a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm132-4a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-68 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#D9D9D9"/>
+    <mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="144" height="16">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 16a8.003 8.003 0 0 0 7.418-5h49.164a8.003 8.003 0 0 0 14.837 0h49.163A8.002 8.002 0 0 0 144 8a8 8 0 0 0-15.418-3H79.419a8.003 8.003 0 0 0-14.837 0H15.419A8.003 8.003 0 0 0 0 8a8 8 0 0 0 8 8Zm0-4a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm132-4a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-68 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#D9D9D9"/>
+    </mask>
+    <g mask="url(#a)"><path d="M-8 8h160" stroke="#0039A6" stroke-width="16" stroke-linecap="round" stroke-dasharray="160 160" class="animated-stroke"/>
+    </g>
+</svg>

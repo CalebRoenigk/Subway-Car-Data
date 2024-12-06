@@ -12,7 +12,7 @@ const additionalGap = 2;
 // Sorts the graph by Car Number
 function graphPointsByNumber() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Number', 'Number');
+    let plotData = groupDataByField(data, 'Number', 'Number');
 
     // Update the data points with new positions and styles
     updatePlot(plotData);
@@ -21,7 +21,7 @@ function graphPointsByNumber() {
 // Sorts the graph by Car Type
 function graphPointsByType() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Car Type', 'Car Type');
+    let plotData = groupDataByField(data, 'Car Type', 'Car Type');
 
     // Sort by type
     // TODO: Maybe we move this into its own function?
@@ -38,8 +38,8 @@ function graphPointsByType() {
     // Sort by line within groups
     plotData.plotGroups.forEach(group => {
         group.groupData.sort((itemA, itemB) => {
-            const lineA = allRecords.find(record => record.id === itemA.id).fields['Line'] || 0; // Default to 0 if Line is undefined
-            const lineB = allRecords.find(record => record.id === itemB.id).fields['Line'] || 0; // Default to 0 if Line is undefined
+            const lineA = data.find(record => record.id === itemA.id)['Line'] || 0; // Default to 0 if Line is undefined
+            const lineB = data.find(record => record.id === itemB.id)['Line'] || 0; // Default to 0 if Line is undefined
             return lineA - lineB;
         });
     });
@@ -51,7 +51,7 @@ function graphPointsByType() {
 // Sorts the graph by Time of Day
 function graphPointsByTime() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Ridden Date', 'Time', timeToInterval);
+    let plotData = groupDataByField(data, 'Ridden Date', 'Time', timeToInterval);
 
     // Sort by time
     plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
@@ -63,7 +63,7 @@ function graphPointsByTime() {
 // Sorts the graph by Day of Year
 function graphPointsByDate() {
     // Create the plot data
-    let plotData = groupDataByField(allRecords, 'Ridden Date', 'Day', dateToInterval);
+    let plotData = groupDataByField(data, 'Ridden Date', 'Day', dateToInterval);
 
     // Sort by time
     plotData.plotGroups.sort((a, b) => a.groupName - b.groupName);
