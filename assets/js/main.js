@@ -67,7 +67,9 @@ function loadAirtableData() {
 
     getAirtableData().then(value => {
         data = retrieveCachedData(airtableDataKey);
-        console.log("retreived cache", data);
+        
+        document.getElementById('loader').style.opacity = 0;
+        
         // Collect ranges for each field type
         dataRanges = getDataRanges(data);
         console.log("make ranges", dataRanges);
